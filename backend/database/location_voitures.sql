@@ -20,9 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `location_voitures`
 --
-
+CREATE DATABASE IF NOT EXISTS location_voitures ;
 -- --------------------------------------------------------
-
+USE location_voitures ;
 --
 -- Structure de la table `car`
 --

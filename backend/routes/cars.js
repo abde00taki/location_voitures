@@ -1,15 +1,13 @@
 const express = require('express');
+const router = express.Router();
 const db = require('../db');
 const multer = require('multer');
 const path = require('path');
 
-const router = express.Router();
-
-
-// Storage config
+// Multer setup
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); 
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -17,16 +15,25 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-
-router.get('/cars', (req, res) => {
-  db.query('SELECT * FROM car', (err, rows) => {
-    if (err) return res.status(500).json(err);
-    res.json(rows);
+// GET all cars
+router.get('/', (req, res) => {
+  db.query('SELECT * FROM car', (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+//  git car by id 
+router.get('/:id', (req, res) => {
+  const id = req.params.id;
+  db.query('SELECT * FROM car WHERE id_car = ?', [id], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if (results.length === 0) return res.status(404).json({ message: 'Car not found' });
+    res.json(results[0]);
   });
 });
 
-// 🔷 POST new car + image
-router.post('/cars', upload.single('image'), (req, res) => {
+// POST car with image
+router.post('/', upload.single('image'), (req, res) => {
   const { marque, matricule, modele, status, price, fuel } = req.body;
   const image = req.file ? req.file.filename : null;
 
@@ -34,36 +41,42 @@ router.post('/cars', upload.single('image'), (req, res) => {
     'INSERT INTO car (marque, matricule, modele, status, price, fuel, image) VALUES (?, ?, ?, ?, ?, ?, ?)',
     [marque, matricule, modele, status, price, fuel, image],
     (err, result) => {
-      if (err) return res.status(500).json(err);
-      res.json({ id: result.insertId, ...req.body, image });
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ id: result.insertId, marque, matricule, modele, status, price, fuel, image });
     }
   );
 });
 
-// 🔷 PUT update car + optional image
-router.put('/cars/:id', upload.single('image'), (req, res) => {
-  const { id } = req.params;
+// PUT update car
+router.put('/:id', upload.single('image'), (req, res) => {
+  const id = req.params.id;
+  const { marque, matricule, modele, status, price, fuel } = req.body;
+  const image = req.file ? req.file.filename : null;
 
-  const carData = {
-    ...req.body
-  };
+  let query = 'UPDATE car SET marque=?, matricule=?, modele=?, status=?, price=?, fuel=?';
+  const values = [marque, matricule, modele, status, price, fuel];
 
-  if (req.file) {
-    carData.image = req.file.filename;
+  if (image) {
+    query += ', image=?';
+    values.push(image);
   }
 
-  db.query('UPDATE car SET ? WHERE id_car = ?', [carData, id], (err) => {
-    if (err) return res.status(500).json(err);
-    res.json({ message: 'Car updated' });
+  query += ' WHERE id_car=?';
+  values.push(id);
+
+  db.query(query, values, (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'Car updated successfully' });
+    
   });
 });
 
-// 🔷 DELETE car
-router.delete('/cars/:id', (req, res) => {
-  const { id } = req.params;
-  db.query('DELETE FROM car WHERE id_car = ?', [id], (err) => {
-    if (err) return res.status(500).json(err);
-    res.json({ message: 'Car deleted' });
+// DELETE car
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  db.query('DELETE FROM car WHERE id_car=?', [id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ message: 'Car deleted successfully' });
   });
 });
 
