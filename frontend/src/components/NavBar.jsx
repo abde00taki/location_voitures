@@ -1,28 +1,95 @@
-export default function NavBar() {
-    return (
-        <nav className=" navbar navbar-expand-lg bg-body-tertiary">
-            <div className="container">
-                <a className="navbar-brand" href="#">location</a>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-                <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">cars</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#">contact</a>
-                        </li>
-                        
-                        
-                    </ul>
-                    
-                </div>
-            </div>
-        </nav>
-    )
-}
+import React, { useState, useEffect } from "react";
+import { Navbar, Nav, Button, Container } from "react-bootstrap";
+import { House, Tools, Phone, BoxArrowInRight } from "react-bootstrap-icons";
+
+
+const NavBar = () => {
+  const [navbarStyle, setNavbarStyle] = useState("transparent");
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY < 50) {
+        setNavbarStyle("transparent");
+      } else if (currentScrollY >= 50 && currentScrollY < 300) {
+        setNavbarStyle("white");
+      } else if (currentScrollY >= 300 && currentScrollY > lastScrollY) {
+        setNavbarStyle("hidden");
+      } else if (currentScrollY >= 300 && currentScrollY < lastScrollY) {
+        setNavbarStyle("white");
+      }
+
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
+
+  const navbarClasses = `
+    ${navbarStyle === "transparent" ? "bg-transparent text-light" : ""}
+    ${navbarStyle === "white" ? "bg-white shadow-sm text-dark" : ""}
+    ${navbarStyle === "hidden" ? "d-none" : ""}
+    fixed-top
+    transition
+  `;
+
+  const buttonVariant =
+    navbarStyle === "white" ? "warning" : "outline-warning";
+
+  const linkClassName =
+    navbarStyle === "white" ? "text-dark" : "text-light";
+
+  return (
+    <Navbar
+      expand="lg"
+      className={navbarClasses}
+      style={{ transition: "all 0.3s ease-in-out" }}
+    >
+      <Container>
+        {/* Logo + Brand */}
+        <Navbar.Brand href="#" className="d-flex align-items-center">
+          
+          <span className={linkClassName}>LOCATION</span>
+        </Navbar.Brand>
+
+        <Navbar.Toggle aria-controls="navbar-nav" />
+        <Navbar.Collapse id="navbar-nav">
+          {/* Center links */}
+          <Nav className="mx-auto gap-3">
+            <Nav.Link
+              href="#home"
+              className={`d-flex align-items-center gap-1 ${linkClassName}`}
+            >
+              <House /> Home
+            </Nav.Link>
+            <Nav.Link
+              href="#services"
+              className={`d-flex align-items-center gap-1 ${linkClassName}`}
+            >
+              <Tools /> Services
+            </Nav.Link>
+            <Nav.Link
+              href="#contact"
+              className={`d-flex align-items-center gap-1 ${linkClassName}`}
+            >
+              <Phone /> Contact
+            </Nav.Link>
+          </Nav>
+
+          {/* Login button */}
+          <Button
+            variant={buttonVariant}
+            className="d-flex align-items-center gap-1"
+          >
+            <BoxArrowInRight /> Login
+          </Button>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+};
+
+export default NavBar;
