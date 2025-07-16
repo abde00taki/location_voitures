@@ -1,15 +1,22 @@
 import './App.css'
-import NavBar from './components/NavBar'
-import Video from './components/Video'
+// import NavBar from './components/NavBar'
+// import Sidebar from './components/SideBar'
+// import Video from './components/Video'
 
 function App() {
-  
+
 
   return (
     <>
-    <NavBar />
-    <Video />
-    
+      {/* <div className="d-none d-lg-flex">
+        <NavBar />
+      </div>
+      <div className="d-flex d-lg-none">
+        <Sidebar  />
+      </div>
+      <Video /> */}
+      
+
     </>
   )
 }

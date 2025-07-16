@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Navbar, Nav, Button, Container } from "react-bootstrap";
 import { House, Tools, Phone, BoxArrowInRight } from "react-bootstrap-icons";
+import { IoCarSportOutline } from "react-icons/io5";
 
 
 const NavBar = () => {
@@ -45,11 +46,12 @@ const NavBar = () => {
   return (
     <Navbar
       expand="lg"
-      className={navbarClasses}
+      className={`${navbarClasses}` }
       style={{ transition: "all 0.3s ease-in-out" }}
     >
       <Container>
         {/* Logo + Brand */}
+        <IoCarSportOutline className="fs-1" />
         <Navbar.Brand href="#" className="d-flex align-items-center">
           
           <span className={linkClassName}>LOCATION</span>
