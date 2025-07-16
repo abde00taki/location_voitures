@@ -72,6 +72,7 @@ export default function Video() {
                             </motion.h2>
                         </div>
                     </div>
+                    <hr />
                     <motion.h2
                         key={index}
                         initial={{
@@ -99,6 +100,7 @@ export default function Video() {
                     >
                         {texts[index]}
                     </motion.h2>
+                    <hr />
 
 
                     <motion.button

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Navbar, Nav, Button, Container } from "react-bootstrap";
 import { House, Tools, Phone, BoxArrowInRight } from "react-bootstrap-icons";
 import { IoCarSportOutline } from "react-icons/io5";
+import { NavLink } from "react-router-dom";
 
 
 const NavBar = () => {
@@ -61,12 +62,13 @@ const NavBar = () => {
         <Navbar.Collapse id="navbar-nav">
           {/* Center links */}
           <Nav className="mx-auto gap-3">
-            <Nav.Link
+            <NavLink
+            to={'/'}
               href="#home"
               className={`d-flex align-items-center gap-1 ${linkClassName}`}
             >
               <House /> Home
-            </Nav.Link>
+            </NavLink>
             <Nav.Link
               href="#services"
               className={`d-flex align-items-center gap-1 ${linkClassName}`}
@@ -82,12 +84,13 @@ const NavBar = () => {
           </Nav>
 
           {/* Login button */}
-          <Button
+          <NavLink
+          to={'/contact'}
             variant={buttonVariant}
-            className="d-flex align-items-center gap-1"
+            className="btn btn-outline-warning d-flex align-items-center gap-1"
           >
-            <BoxArrowInRight /> Login
-          </Button>
+            <BoxArrowInRight /> Sign Up
+          </NavLink>
         </Navbar.Collapse>
       </Container>
     </Navbar>
