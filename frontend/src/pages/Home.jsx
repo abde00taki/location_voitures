@@ -3,11 +3,15 @@ import { motion } from "framer-motion";
 
 
 import Video from "../components/Video";
+import NavBar from "../components/NavBar";
 
 export default function Home() {
   return (
     <div>
       <div>
+        <div className="d-none d-lg-flex">
+          <NavBar show={true} />
+        </div>
         <Video />
         <div className="container w-100 ">
           <h3 className="text-center">welcome</h3>
@@ -48,7 +52,7 @@ export default function Home() {
 
             </div>
           </div>
-          
+
         </div>
       </div>
     </div >

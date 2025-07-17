@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
   const { name, lastname, email, password } = req.body;
 
   if(!name || !lastname || !email || !password){
-    return res.status(400).send('invalid inouts')
+    return res.status(400).send('invalid ipouts')
   }
 
   // Crypted Password

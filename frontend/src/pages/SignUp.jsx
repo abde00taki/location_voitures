@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import NavBar from "../components/NavBar";
 
 export default function SignUp() {
 
@@ -91,6 +92,9 @@ export default function SignUp() {
 
     return (
         <>
+            <div className="d-none d-lg-flex">
+                <NavBar show={true} />
+            </div>
             <div className="bg-dark">
                 <br />
                 <br />

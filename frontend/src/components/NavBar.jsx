@@ -5,7 +5,7 @@ import { IoCarSportOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 
 
-const NavBar = () => {
+const NavBar = ({show}) => {
   const [navbarStyle, setNavbarStyle] = useState("transparent");
   const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -45,7 +45,9 @@ const NavBar = () => {
     navbarStyle === "white" ? "text-dark" : "text-light";
 
   return (
-    <Navbar
+    <div>
+      {show && (
+         <Navbar
       expand="lg"
       className={`${navbarClasses}` }
       style={{ transition: "all 0.3s ease-in-out" }}
@@ -94,6 +96,8 @@ const NavBar = () => {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+      )}
+    </div>
   );
 };
 

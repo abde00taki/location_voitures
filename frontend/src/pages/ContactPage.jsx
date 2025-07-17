@@ -2,11 +2,15 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { MdCarRental } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import NavBar from "../components/NavBar";
 export default function ContactPage() {
-    
+
 
     return (
         <>
+            <div className="d-none d-lg-flex">
+                <NavBar show={true} />
+            </div>
             {/* ===== VIDEO & HEADER ===== */}
             <div style={{ position: "relative", width: "100%", height: "100%" }}>
                 <video width="100%" height="100%" autoPlay muted loop>
@@ -65,7 +69,7 @@ export default function ContactPage() {
                     </motion.h2>
 
                     <motion.NavLink
-                    
+
                         initial={{ y: 200, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ duration: 1 }}
@@ -74,13 +78,13 @@ export default function ContactPage() {
                         style={{ margin: 0, boxShadow: "0 0 6px white", top: "40px" }}
                         className="btn btn-outline-warning mt-4"
                     >
-                         <NavLink to={'/signup'}>rent car <MdCarRental /></NavLink>
+                        <NavLink to={'/signup'}>rent car <MdCarRental /></NavLink>
                     </motion.NavLink>
                 </div>
             </div>
 
-            
-        
+
+
         </>
     );
 }
