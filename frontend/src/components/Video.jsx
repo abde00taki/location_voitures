@@ -1,6 +1,5 @@
 import { IoCarSportOutline } from "react-icons/io5";
 import { AnimatePresence, motion } from "framer-motion";
-import { GiHouseKeys } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import { MdCarRental } from "react-icons/md";
 
@@ -15,7 +14,7 @@ export default function Video() {
     useEffect(() => {
         const interval = setInterval(() => {
             setIndex((prev) => (prev + 1) % texts.length);
-        }, 3000); // كل 3 ثواني
+        }, 3000); 
         return () => clearInterval(interval);
     }, []);
 

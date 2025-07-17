@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-
+import { motion } from "framer-motion";
 
 export default function SignUp() {
 
@@ -90,67 +90,86 @@ export default function SignUp() {
 
 
     return (
-        <div className="row">
-            <div className="col-md-6">
-                <div className="d-flex justify-content-center align-items-center" height="30rem">
-                    <div className="d-none d-lg-flex" style={{ border: "2px solid white ", overflow: "hidden" }}>
-                        <img style={{ height: "30rem" }} className="w-75 " src="keys.jpg" alt="" />
+        <>
+            <div className="bg-dark">
+                <br />
+                <br />
+            </div>
+            <div className="d-flex justify-content-center align-items-center vh-100 bg-dark">
+                <div className="w-100" style={{ margin: "70px" }}>
+                    <div className="row w-100 bg-primary " style={{ borderRadius: "20px", padding: "30px" }}>
+                        <div className="col-md-6 " style={{
+                            backgroundColor: "rgba(0, 0, 255, 0.436)",
+                            backgroundImage: "url(loginpage.png)",
+                            backgroundPosition: "center",
+                            backgroundSize: "cover"
+                        }}  >
+                        </div>
+                        <div className="col-md-6">
+                            <motion.div
+                                initial={{ x: 100, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ duration: 1 }}
+
+                            >
+                                <div style={{ borderRadius: "15px", boxShadow: '0 0 3px black', backgroundColor: "white", padding: "10px" }} className="w-100">
+                                    <form onSubmit={handleSubmitUser} className="p-4">
+                                        <label>add your name</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={name}
+                                            onChange={(e) => handleChange("name", e.target.value)}
+                                        />
+                                        <p className={getHelperColor(errors.name)}>
+                                            {errors.name ? errors.name : "Good 👍"}
+                                        </p>
+
+                                        <label>add your lastname</label>
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            value={lastname}
+                                            onChange={(e) => handleChange("lastname", e.target.value)}
+                                        />
+                                        <p className={getHelperColor(errors.lastname)}>
+                                            {errors.lastname ? errors.lastname : "Good 👍"}
+                                        </p>
+
+                                        <label>add your email</label>
+                                        <input
+                                            type="email"
+                                            className="form-control"
+                                            value={email}
+                                            onChange={(e) => handleChange("email", e.target.value)}
+                                        />
+                                        <p className={getHelperColor(errors.email)}>
+                                            {errors.email ? errors.email : "Good 👍"}
+                                        </p>
+
+                                        <label>add your password</label>
+                                        <input
+                                            type="password"
+                                            className="form-control"
+                                            value={password}
+                                            onChange={(e) => handleChange("password", e.target.value)}
+                                        />
+                                        <p className={getHelperColor(errors.password)}>
+                                            {errors.password ? errors.password : "Good 👍"}
+                                        </p>
+
+                                        <button className="btn btn-primary mt-3" type="submit">
+                                            Login
+                                        </button>
+                                    </form>
+                                </div>
+                            </motion.div>
+
+                        </div>
                     </div>
                 </div>
             </div>
-            <div className="col-md-6">
-                <div style={{ border: "2px solid white ", height: "75%" }} className="">
-                    <form onSubmit={handleSubmitUser}>
-                        <label>add your name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={name}
-                            onChange={(e) => handleChange("name", e.target.value)}
-                        />
-                        <p className={getHelperColor(errors.name)}>
-                            {errors.name ? errors.name : "Good 👍"}
-                        </p>
+        </>
 
-                        <label>add your lastname</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            value={lastname}
-                            onChange={(e) => handleChange("lastname", e.target.value)}
-                        />
-                        <p className={getHelperColor(errors.lastname)}>
-                            {errors.lastname ? errors.lastname : "Good 👍"}
-                        </p>
-
-                        <label>add your email</label>
-                        <input
-                            type="email"
-                            className="form-control"
-                            value={email}
-                            onChange={(e) => handleChange("email", e.target.value)}
-                        />
-                        <p className={getHelperColor(errors.email)}>
-                            {errors.email ? errors.email : "Good 👍"}
-                        </p>
-
-                        <label>add your password</label>
-                        <input
-                            type="password"
-                            className="form-control"
-                            value={password}
-                            onChange={(e) => handleChange("password", e.target.value)}
-                        />
-                        <p className={getHelperColor(errors.password)}>
-                            {errors.password ? errors.password : "Good 👍"}
-                        </p>
-
-                        <button className="btn btn-primary mt-3" type="submit">
-                            Login
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
     )
 }
