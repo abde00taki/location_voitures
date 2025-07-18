@@ -71,12 +71,13 @@ const NavBar = ({show}) => {
             >
               <House /> Home
             </NavLink>
-            <Nav.Link
+            <NavLink
+            to={'cars'}
               href="#services"
               className={`d-flex align-items-center gap-1 ${linkClassName}`}
             >
               <Tools /> Services
-            </Nav.Link>
+            </NavLink>
             <Nav.Link
               href="#contact"
               className={`d-flex align-items-center gap-1 ${linkClassName}`}

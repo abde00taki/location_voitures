@@ -28,7 +28,7 @@ export default function Admin() {
                 setMarque("")
                 setModele("")
                 setMatricule("")
-                setPric("")
+                setPrice("")
                 setFuel("")
                 setImage("")
                 console.log(res.data);
