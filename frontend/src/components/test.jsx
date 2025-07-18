@@ -138,7 +138,7 @@ export default function PrimarySearchAppBar() {
     );
 
     return (
-        <Box sx={{ width: '100%', margin: 0, padding: 0 }}>
+        <Box sx={{ width: '100%', margin: 0, padding: 0, position: "sticky", top: "0" }} >
             <AppBar
                 position="static"
                 sx={{
@@ -149,32 +149,9 @@ export default function PrimarySearchAppBar() {
                 }}
             >
                 <Toolbar sx={{ width: '100%' }}>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        sx={{ mr: 2 }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
-                    >
-                        MUI
-                    </Typography>
-                    <Search>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
+                    
+                    
+                    
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">

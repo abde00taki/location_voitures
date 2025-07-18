@@ -34,15 +34,15 @@ router.get('/:id', (req, res) => {
 
 // POST car with image
 router.post('/', upload.single('image'), (req, res) => {
-  const { marque, matricule, modele, status, price, fuel } = req.body;
+  const { marque, matricule, modele, price, fuel } = req.body;
   const image = req.file ? req.file.filename : null;
 
   db.query(
-    'INSERT INTO car (marque, matricule, modele, status, price, fuel, image) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    [marque, matricule, modele, status, price, fuel, image],
+    'INSERT INTO car (marque, matricule, modele, price, fuel, image) VALUES ( ?, ?, ?, ?, ?, ?)',
+    [marque, matricule, modele,  price, fuel, image],
     (err, result) => {
       if (err) return res.status(500).json({ error: err.message });
-      res.json({ id: result.insertId, marque, matricule, modele, status, price, fuel, image });
+      res.json({ id: result.insertId, marque, matricule, modele, price, fuel, image });
     }
   );
 });
@@ -50,11 +50,11 @@ router.post('/', upload.single('image'), (req, res) => {
 // PUT update car
 router.put('/:id', upload.single('image'), (req, res) => {
   const id = req.params.id;
-  const { marque, matricule, modele, status, price, fuel } = req.body;
+  const { marque, matricule, modele, price, fuel } = req.body;
   const image = req.file ? req.file.filename : null;
 
-  let query = 'UPDATE car SET marque=?, matricule=?, modele=?, status=?, price=?, fuel=?';
-  const values = [marque, matricule, modele, status, price, fuel];
+  let query = 'UPDATE car SET marque=?, matricule=?, modele=?, price=?, fuel=?';
+  const values = [marque, matricule, modele, price, fuel];
 
   if (image) {
     query += ', image=?';
