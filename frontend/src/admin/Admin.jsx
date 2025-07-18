@@ -34,7 +34,7 @@ export default function Admin() {
                 console.log(res.data);
             })
             .catch(err => {
-                
+
                 console.error(err);
                 alert("Error adding car");
             });
@@ -42,9 +42,11 @@ export default function Admin() {
 
     return (
         <>
-            <div className="row w-100">
-                <div className="col-md-3 d-none d-lg-flex ">
-                    <div className="bg-dark w-25 vh-100 position-fixed">
+            <PrimarySearchAppBar />
+
+            <div className="row  ">
+                <div className="col-md-3 d-none d-lg-flex bg-dark ">
+                    <div className=" w-100 vh-100 ">
                         <div>
                             <h5 className="text-light mt-3 mx-4">
                                 <IoCarSportOutline className="fs-1" /> LOCATION
@@ -52,15 +54,16 @@ export default function Admin() {
                             <hr className="text-light w-100 mt-0" />
                         </div>
                     </div>
+
                 </div>
 
-                <div className="col-md-9"
+                <div className="col-md-9 bg-dark "
                     style={{
                         backgroundImage: "url(admin.png)",
-                        backgroundPosition: "right",
-                        backgroundAttachment: "fixed"
-                    }}>
-                    <PrimarySearchAppBar />
+                        backgroundAttachment: "fixed",
+                        backgroundPosition: "center"
+                    }}
+                >
 
                     <div className="d-flex justify-content-center align-items-center vh-100 text-light">
                         <form

@@ -15,7 +15,7 @@ const Sidebar = () => {
         variant="trasform"
         onClick={toggleSidebar}
         className="d-flex align-items-center gap-2 position-fixed text-light"
-        style={{zIndex: "999"}}
+        style={{zIndex: "2000"}}
       >
         <List size={24} />
         LOCATION <IoCarSportOutline className="fs-3" />

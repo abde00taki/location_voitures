@@ -135,12 +135,12 @@ export default function PrimarySearchAppBar() {
     );
 
     return (
-        <Box sx={{ width: '100%', margin: 0, padding: 0,}} className="sticky-top" >
+        <Box sx={{ width: '100%', margin: 0, padding: 0,}} className="sticky-top " >
             <AppBar
-                position="static"
+                
                 sx={{
                     backgroundColor: '#212529',
-                    width: '100%',
+                    width: "100%",
                     margin: 0,
                     padding: 0,
                 }}

@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   });
 });
 
-// POST user
+// POST user  Sign Up
 router.post('/', async (req, res) => {
   const { name, lastname, email, password } = req.body;
 
@@ -30,6 +30,35 @@ router.post('/', async (req, res) => {
     }
   );
 });
+
+
+// POST user  Sign In
+router.post("/login", (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(401).json({ message: "Data required!" });
+  }
+
+  const sql = "SELECT * FROM users WHERE email = ?";
+  db.query(sql, [email.trim().toLowerCase()], (err, result) => {
+    if (err) return res.status(500).json({ message: "Database error" });
+
+    if (!result.length) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    const user = result[0];
+    const isEqual = bcrypt.compareSync(password, user.password);
+
+    if (!isEqual) {
+      return res.status(401).json({ message: "Password incorrect" });
+    }
+
+    const { password: _, ...userWithoutPassword } = user;
+    res.status(200).json(userWithoutPassword);
+  });
+});
+
 
 // DELETE user
 router.delete('/:id', (req, res) => {
