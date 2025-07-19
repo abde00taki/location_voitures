@@ -30,7 +30,7 @@ export default function Cars() {
                 <div className="row w-100">
                     {cars && cars.map(car => (
                         <div className="col-md-4" key={car.id}>
-                            <CardCars marque={car.marque} modele={car.model} price={car.price} fuel={car.fuel} image={car.image} />
+                            <CardCars rent="user" marque={car.marque} modele={car.model} price={car.price} fuel={car.fuel} image={car.image} />
                         </div>
                     ))}
                 </div>

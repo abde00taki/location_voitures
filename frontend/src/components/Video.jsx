@@ -1,5 +1,5 @@
 import { IoCarSportOutline } from "react-icons/io5";
-import { AnimatePresence, motion } from "framer-motion";
+import {  motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { MdCarRental } from "react-icons/md";
 

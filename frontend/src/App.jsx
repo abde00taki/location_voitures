@@ -7,7 +7,9 @@ import NavBar from './components/NavBar'
 import Sidebar from './components/SideBar'
 import { useState } from 'react'
 import Admin from './admin/Admin'
-import Cars from './pages/cars'
+
+import UpdateCar from './admin/Update'
+import Cars from './pages/Cars'
 
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/admin" element={<Admin/>} />
         <Route path="/cars" element={<Cars/>} />
+        
+        <Route path="/update/:id" element={<UpdateCar />} />
       </Routes>
 
     </>

@@ -12,6 +12,8 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import InputBase from '@mui/material/InputBase';
+import Typography from "@mui/material/Typography";
+import { IoCarSportOutline } from "react-icons/io5";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -135,9 +137,9 @@ export default function PrimarySearchAppBar() {
     );
 
     return (
-        <Box sx={{ width: '100%', margin: 0, padding: 0,}} className="sticky-top " >
+        <Box sx={{ width: '100%', margin: 0, padding: 0, }} className="sticky-top " >
             <AppBar
-                
+
                 sx={{
                     backgroundColor: '#212529',
                     width: "100%",
@@ -146,9 +148,17 @@ export default function PrimarySearchAppBar() {
                 }}
             >
                 <Toolbar sx={{ width: '100%' }}>
-                    
-                    
-                    
+                <Typography
+                    variant="h6"
+                    noWrap
+                    component="div"
+                    sx={{ display: { xs: 'none', sm: 'block' } }}
+                >
+                    <IoCarSportOutline className="fs-1" /> LOCATION
+                </Typography>
+
+
+
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
