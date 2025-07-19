@@ -76,7 +76,7 @@ const NavBar = ({show}) => {
               href="#services"
               className={`d-flex align-items-center gap-1 ${linkClassName}`}
             >
-              <Tools /> Services
+              <Tools /> Cars
             </NavLink>
             <Nav.Link
               href="#contact"

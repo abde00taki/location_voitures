@@ -14,6 +14,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import InputBase from '@mui/material/InputBase';
 import Typography from "@mui/material/Typography";
 import { IoCarSportOutline } from "react-icons/io5";
+import { FaEye } from "react-icons/fa";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -148,19 +149,27 @@ export default function PrimarySearchAppBar() {
                 }}
             >
                 <Toolbar sx={{ width: '100%' }}>
-                <Typography
-                    variant="h6"
-                    noWrap
-                    component="div"
-                    sx={{ display: { xs: 'none', sm: 'block' } }}
-                >
-                    <IoCarSportOutline className="fs-1" /> LOCATION
-                </Typography>
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{ display: { xs: 'none', sm: 'block' } }}
+                    >
+                        <IoCarSportOutline className="fs-1" /> LOCATION
+
+                    </Typography>
 
 
 
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+
+                        <a href="http://localhost:5173/" target="_blank"
+                            rel="noopener noreferrer"  ><IconButton size="large" aria-label="show 4 new mails" color="inherit">
+
+                                <FaEye color="white" />
+
+                            </IconButton></a>
                         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="error">
                                 <MailIcon />
@@ -180,10 +189,13 @@ export default function PrimarySearchAppBar() {
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
+
                             <AccountCircle />
+
                         </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+
                         <IconButton
                             size="large"
                             aria-label="show more"
@@ -194,6 +206,8 @@ export default function PrimarySearchAppBar() {
                         >
                             <MoreIcon />
                         </IconButton>
+
+
                     </Box>
                 </Toolbar>
             </AppBar>

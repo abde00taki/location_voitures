@@ -29,7 +29,7 @@ export default function Cars() {
             <div className="container d-flex justify-content-center">
                 <div className="row w-100">
                     {cars && cars.map(car => (
-                        <div className="col-md-4" key={car.id}>
+                        <div className="col-md-4" key={car.id_car}>
                             <CardCars rent="user" marque={car.marque} modele={car.model} price={car.price} fuel={car.fuel} image={car.image} />
                         </div>
                     ))}

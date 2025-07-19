@@ -1,9 +1,28 @@
 import { NavLink } from "react-router-dom";
+import { MdDeleteForever } from "react-icons/md";
+import { BsPencilSquare } from "react-icons/bs";
+import axios from "axios";
+
 
 export default function CardCars(props) {
+    
+    const handleDelete = () => {
+        if (!window.confirm("Are you sure you want to delete this car?")) return;
+
+        axios
+            .delete(`http://localhost:8888/cars/${props.id_car}`)
+            .then((res) => {
+                alert("Car deleted successfully");
+                if (props.onDeleteSuccess) props.onDeleteSuccess(); // باش تحدّث اللائحة مثلا
+            })
+            .catch((err) => {
+                console.error(err);
+                alert("Error deleting car");
+            });
+    };
     return (
-        <div className="card mt-3" style={{ width: "100%", zIndex: "5000" }}>
-            <img src={`http://localhost:8888/uploads/${props.image}`} className="card-img-top" alt={props.marque} />
+        <div className="card mt-3" style={{ width: "100%" }}>
+            <img src={`http://localhost:8888/uploads/${props.image}`} style={{height: "25vh"}} className="card-img-top" alt={props.marque} />
             <div className="card-body">
                 <div className="d-flex justify-content-between">
                     <h5 className="card-title">{props.marque}</h5>
@@ -16,10 +35,10 @@ export default function CardCars(props) {
                     <button className="btn btn-primary">rent</button>
                 )}
                 {props.rent === 'update' && (
-                    <NavLink to={`/update/${props.id}`} className="btn btn-warning">update</NavLink>
+                    <NavLink to={`/update/${props.id}`} className="btn btn-outline-warning"><BsPencilSquare size={18} /></NavLink>
                 )}
                 {props.rent === 'delete' && (
-                    <button className="btn btn-danger">delete</button>
+                    <button onClick={ () => handleDelete()} className="btn btn-outline-danger"><MdDeleteForever /></button>
                 )}
             </div>
         </div>

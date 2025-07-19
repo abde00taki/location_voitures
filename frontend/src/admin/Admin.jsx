@@ -14,6 +14,26 @@ export default function Admin() {
     const [fuel, setFuel] = useState("");
     const [image, setImage] = useState(null);
 
+    const [chenge, setChenge] = useState("home");
+
+    const [cars, setCars] = useState([]);
+
+    
+    const fetchCars = () => {
+        axios
+            .get("http://localhost:8888/cars")
+            .then((response) => {
+                setCars(response.data);
+            })
+            .catch((error) => {
+                console.error("Erreur lors du chargement des voitures:", error);
+            });
+    };
+
+    useEffect(() => {
+        fetchCars(); 
+    }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Form submitted");
@@ -36,28 +56,13 @@ export default function Admin() {
                 setPrice("");
                 setFuel("");
                 setImage("");
-                console.log(res.data);
+                fetchCars(); 
             })
             .catch((err) => {
                 console.error(err);
                 alert("Error adding car");
             });
     };
-
-    const [chenge, setChenge] = useState("home");
-
-    const [cars, setCars] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get("http://localhost:8888/cars")
-            .then((response) => {
-                setCars(response.data);
-            })
-            .catch((error) => {
-                console.error("Erreur lors du chargement des voitures:", error);
-            });
-    }, []);
 
     return (
         <>
@@ -69,42 +74,26 @@ export default function Admin() {
                 {/* Sidebar */}
                 <div
                     className="sidebar col-md-3 d-none d-lg-flex bg-dark p-0"
-                    style={{ zIndex: 1 }} // make sidebar behind content
+                    style={{ zIndex: 1 }}
                 >
                     <div className="w-100 vh-100 position-fixed">
                         <br />
                         <br />
                         <br />
                         <div className="d-flex flex-column mt-4 align-items-start vh-100 p-3">
-                            <button
-                                onClick={() => setChenge("home")}
-                                style={{ width: "20%" }}
-                                className="btn btn-outline-light mx-4"
-                            >
+                            <button onClick={() => setChenge("home")} style={{ width: "20%" }} className="btn btn-outline-light mx-4">
                                 <IoCarSportOutline size={20} /> H o m e
                             </button>
 
-                            <button
-                                onClick={() => setChenge("post")}
-                                style={{ width: "20%" }}
-                                className="btn btn-outline-light mt-4 mx-4"
-                            >
+                            <button onClick={() => setChenge("post")} style={{ width: "20%" }} className="btn btn-outline-light mt-4 mx-4">
                                 <BsPlusCircle size={18} /> P O S T
                             </button>
 
-                            <button
-                                onClick={() => setChenge("update")}
-                                style={{ width: "20%" }}
-                                className="btn btn-outline-light mt-4 mx-4"
-                            >
+                            <button onClick={() => setChenge("update")} style={{ width: "20%" }} className="btn btn-outline-light mt-4 mx-4">
                                 <BsPencilSquare size={18} /> U P D A T E
                             </button>
 
-                            <button
-                                onClick={() => setChenge("delete")}
-                                style={{ width: "20%" }}
-                                className="btn btn-outline-light mt-4 mx-4"
-                            >
+                            <button onClick={() => setChenge("delete")} style={{ width: "20%" }} className="btn btn-outline-light mt-4 mx-4">
                                 <BsTrash size={18} /> D E L E T E
                             </button>
                         </div>
@@ -119,7 +108,7 @@ export default function Admin() {
                         backgroundAttachment: "fixed",
                         backgroundPosition: "center",
                         zIndex: 2,
-                        position: "relative", // bring content above sidebar
+                        position: "relative",
                     }}
                 >
                     <div className={chenge === "home" ? "" : "d-none"}>
@@ -135,55 +124,26 @@ export default function Admin() {
                                     boxShadow: "0 0 3px black",
                                     borderRadius: "10px",
                                     padding: "15px",
-                                    backgroundColor: "rgba(0, 0, 0, 0.500)",
+                                    backgroundColor: "#212529",
                                 }}
                             >
                                 <label>add marque</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={marque}
-                                    onChange={(e) => setMarque(e.target.value)}
-                                />
+                                <input type="text" className="form-control" value={marque} onChange={(e) => setMarque(e.target.value)} />
 
                                 <label className="mt-4">add modele</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={modele}
-                                    onChange={(e) => setModele(e.target.value)}
-                                />
+                                <input type="text" className="form-control" value={modele} onChange={(e) => setModele(e.target.value)} />
 
                                 <label className="mt-4">add matricule</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={matricule}
-                                    onChange={(e) => setMatricule(e.target.value)}
-                                />
+                                <input type="text" className="form-control" value={matricule} onChange={(e) => setMatricule(e.target.value)} />
 
                                 <label className="mt-4">add price</label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    value={price}
-                                    onChange={(e) => setPrice(e.target.value)}
-                                />
+                                <input type="number" className="form-control" value={price} onChange={(e) => setPrice(e.target.value)} />
 
                                 <label className="mt-4">add fuel</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={fuel}
-                                    onChange={(e) => setFuel(e.target.value)}
-                                />
+                                <input type="text" className="form-control" value={fuel} onChange={(e) => setFuel(e.target.value)} />
 
                                 <label className="mt-4">add image</label>
-                                <input
-                                    type="file"
-                                    className="form-control"
-                                    onChange={(e) => setImage(e.target.files[0])}
-                                />
+                                <input type="file" className="form-control" onChange={(e) => setImage(e.target.files[0])} />
 
                                 <div className="d-flex justify-content-center mt-3">
                                     <button type="submit" className="btn btn-primary">
@@ -228,6 +188,8 @@ export default function Admin() {
                                                 price={car.price}
                                                 fuel={car.fuel}
                                                 image={car.image}
+                                                id_car={car.id_car}
+                                                onDeleteSuccess={fetchCars} 
                                             />
                                         </div>
                                     ))}
