@@ -2,6 +2,20 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 const bcrypt = require('bcrypt')
+const multer = require("multer");
+const path = require("path");
+
+// Multer setup
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+const upload = multer({ storage });
+
 
 // GET all users
 router.get('/', (req, res) => {
@@ -15,7 +29,7 @@ router.get('/', (req, res) => {
 router.post('/', async (req, res) => {
   const { name, lastname, email, password } = req.body;
 
-  if(!name || !lastname || !email || !password){
+  if (!name || !lastname || !email || !password) {
     return res.status(400).send('invalid ipouts')
   }
 
@@ -68,5 +82,34 @@ router.delete('/:id', (req, res) => {
     res.json({ message: 'user deleted successfully' });
   });
 });
+
+
+// PUT update user profile
+router.put("/:id", upload.single("image"), (req, res) => {
+  const id = req.params.id;
+  const { name, lastname, email } = req.body;
+  const image = req.file ? req.file.filename : null;
+
+  let query = "UPDATE users SET name=?, lastname=?, email=?";
+  const values = [name, lastname, email];
+
+  if (image) {
+    query += ", image=?";
+    values.push(image);
+  }
+
+  query += " WHERE id_user=?";
+  values.push(id);
+
+  db.query(query, values, (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+
+    const updatedUser = { name, lastname, email };
+    if (image) updatedUser.image = image;
+
+    res.json(updatedUser);
+  });
+});
+
 
 module.exports = router;

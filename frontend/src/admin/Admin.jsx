@@ -15,6 +15,10 @@ export default function Admin() {
     const [image, setImage] = useState(null);
 
     const [chenge, setChenge] = useState("home");
+    const handelChengePost = (e) => {
+        e.preventDefault();
+        setChenge('post')
+    }
 
     const [cars, setCars] = useState([]);
 
@@ -84,10 +88,10 @@ export default function Admin() {
                             <button onClick={() => setChenge("home")} style={{ width: "20%" }} className="btn btn-outline-light mx-4">
                                 <IoCarSportOutline size={20} /> H o m e
                             </button>
-
-                            <button onClick={() => setChenge("post")} style={{ width: "20%" }} className="btn btn-outline-light mt-4 mx-4">
+                            {/* <button onClick={() => setChenge("post")} className="btn btn-outline-light mt-4 mx-4">
                                 <BsPlusCircle size={18} /> P O S T
-                            </button>
+                            </button> */}
+
 
                             <button onClick={() => setChenge("update")} style={{ width: "20%" }} className="btn btn-outline-light mt-4 mx-4">
                                 <BsPencilSquare size={18} /> MY C A R S
@@ -153,10 +157,22 @@ export default function Admin() {
                     </div>
 
                     <div className={chenge === "update" ? "" : "d-none"}>
-                            <form className="d-flex justify-content-centers w-50 mt-4" role="search">
+                        <div className="d-flex justify-content-center sticky-top">
+                            <form className="d-flex  w-50 mt-4" role="search">
                                 <input className="form-control me-2 mt-4" type="search" placeholder="Search" aria-label="Search" />
-                                <button className="btn btn-success" type="submit">Search</button>
+                                <div className="mt-4 d-flex">
+                                    <div>
+                                        <button className="btn btn-success" type="submit">Search</button>
+                                    </div>
+                                    <div>
+                                        <button onClick={handelChengePost} className="btn btn-outline-light  mx-4">
+                                            <BsPlusCircle size={18} /> 
+                                        </button>
+                                    </div>
+                                </div>
+
                             </form>
+                        </div>
                         <div className="container d-flex justify-content-center mt-4">
                             <div className="row w-100 mt-4">
                                 {cars &&
@@ -175,6 +191,7 @@ export default function Admin() {
                                             />
                                         </div>
                                     ))}
+
                             </div>
                         </div>
                     </div>
@@ -182,6 +199,13 @@ export default function Admin() {
 
                 </div>
             </div>
+
+
+
+
+
+
+            
         </>
     );
 }

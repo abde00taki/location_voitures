@@ -3,13 +3,14 @@ import './App.css'
 import ContactPage from './pages/ContactPage'
 import SignUp from './pages/SignUp'
 import Home from './pages/Home'
-import NavBar from './components/NavBar'
 import Sidebar from './components/SideBar'
 import { useState } from 'react'
 import Admin from './admin/Admin'
 
 import UpdateCar from './admin/Update'
 import Cars from './pages/Cars'
+import SignIn from './pages/SignIn'
+import Profile from './pages/Profile'
 
 
 function App() {
@@ -29,7 +30,8 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/admin" element={<Admin/>} />
         <Route path="/cars" element={<Cars/>} />
-        
+        <Route path="/signin" element={<SignIn/>} />
+        <Route path="/profile" element={<Profile/>} />
         <Route path="/update/:id" element={<UpdateCar />} />
       </Routes>
 
