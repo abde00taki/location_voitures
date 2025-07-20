@@ -18,7 +18,7 @@ export default function Admin() {
 
     const [cars, setCars] = useState([]);
 
-    
+
     const fetchCars = () => {
         axios
             .get("http://localhost:8888/cars")
@@ -31,7 +31,7 @@ export default function Admin() {
     };
 
     useEffect(() => {
-        fetchCars(); 
+        fetchCars();
     }, []);
 
     const handleSubmit = (e) => {
@@ -56,7 +56,7 @@ export default function Admin() {
                 setPrice("");
                 setFuel("");
                 setImage("");
-                fetchCars(); 
+                fetchCars();
             })
             .catch((err) => {
                 console.error(err);
@@ -90,12 +90,10 @@ export default function Admin() {
                             </button>
 
                             <button onClick={() => setChenge("update")} style={{ width: "20%" }} className="btn btn-outline-light mt-4 mx-4">
-                                <BsPencilSquare size={18} /> U P D A T E
+                                <BsPencilSquare size={18} /> MY C A R S
                             </button>
 
-                            <button onClick={() => setChenge("delete")} style={{ width: "20%" }} className="btn btn-outline-light mt-4 mx-4">
-                                <BsTrash size={18} /> D E L E T E
-                            </button>
+
                         </div>
                     </div>
                 </div>
@@ -155,6 +153,10 @@ export default function Admin() {
                     </div>
 
                     <div className={chenge === "update" ? "" : "d-none"}>
+                            <form className="d-flex justify-content-centers w-50 mt-4" role="search">
+                                <input className="form-control me-2 mt-4" type="search" placeholder="Search" aria-label="Search" />
+                                <button className="btn btn-success" type="submit">Search</button>
+                            </form>
                         <div className="container d-flex justify-content-center mt-4">
                             <div className="row w-100 mt-4">
                                 {cars &&
@@ -168,6 +170,8 @@ export default function Admin() {
                                                 fuel={car.fuel}
                                                 image={car.image}
                                                 id={car.id_car}
+                                                id_car={car.id_car}
+                                                onDeleteSuccess={fetchCars}
                                             />
                                         </div>
                                     ))}
@@ -175,27 +179,7 @@ export default function Admin() {
                         </div>
                     </div>
 
-                    <div className={chenge === "delete" ? "" : "d-none"}>
-                        <div className="container d-flex justify-content-center mt-4">
-                            <div className="row w-100 mt-4">
-                                {cars &&
-                                    cars.map((car) => (
-                                        <div className="col-md-4" key={car.id_car}>
-                                            <CardCars
-                                                rent="delete"
-                                                marque={car.marque}
-                                                modele={car.model}
-                                                price={car.price}
-                                                fuel={car.fuel}
-                                                image={car.image}
-                                                id_car={car.id_car}
-                                                onDeleteSuccess={fetchCars} 
-                                            />
-                                        </div>
-                                    ))}
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </>

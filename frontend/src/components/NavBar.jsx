@@ -72,7 +72,7 @@ const NavBar = ({show}) => {
               <House /> Home
             </NavLink>
             <NavLink
-            to={'cars'}
+            to={'/cars'}
               href="#services"
               className={`d-flex align-items-center gap-1 ${linkClassName}`}
             >

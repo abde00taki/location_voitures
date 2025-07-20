@@ -115,7 +115,7 @@ export default function UpdateCar({ onUpdateSuccess }) {
                 <div
                     className="col-md-9 bg-dark"
                     style={{
-                        backgroundImage: "url(admin.png)",
+                        backgroundImage: "url(/admin.png)",
                         backgroundAttachment: "fixed",
                         backgroundPosition: "center",
                         zIndex: 2,

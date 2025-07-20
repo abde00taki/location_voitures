@@ -82,6 +82,10 @@ export default function SignUp() {
                 password,
             });
             alert("Utilisateur ajouté : " + res.data.name);
+            setName("")
+            setLastname("")
+            setEmail("")
+            setPassword("")
         } catch (error) {
             console.error("Erreur POST:", error);
         }
