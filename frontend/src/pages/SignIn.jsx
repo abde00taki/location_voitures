@@ -23,11 +23,11 @@ export default function SignIn() {
 
       localStorage.setItem("user", JSON.stringify(res.data));
 
-      alert("✅ Login successful!");
+      alert(" Login successful!");
       navigate("/"); 
     } catch (err) {
       console.error(err);
-      alert("❌ Invalid email or password");
+      alert(" Invalid email or password");
     } finally {
       setLoading(false);
     }

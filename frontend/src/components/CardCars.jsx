@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { MdDeleteForever } from "react-icons/md";
 import { BsPencilSquare } from "react-icons/bs";
 import axios from "axios";
+import HoverRating from "./Rating";
 
 
 export default function CardCars(props) {
@@ -29,10 +30,11 @@ export default function CardCars(props) {
                     <h5 className="card-title">{props.price}DH</h5>
                 </div>
                 <h6>{props.modele}</h6>
+                <HoverRating/>
                 <h6>{props.fuel}</h6>
 
                 {props.rent === 'user' ? (
-                    <button className="btn btn-primary">rent</button>
+                    <NavLink to={'/resrvation/'+props.id} className="btn btn-primary">rent new</NavLink>
                 ) : (
                     <div className="d-flex justify-content-between">
                         <NavLink to={`/update/${props.id}`} className="btn btn-outline-warning"><BsPencilSquare size={18} /></NavLink>
