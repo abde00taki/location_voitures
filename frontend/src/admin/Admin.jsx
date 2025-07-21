@@ -88,11 +88,6 @@ export default function Admin() {
                             <button onClick={() => setChenge("home")} style={{ width: "20%" }} className="btn btn-outline-light mx-4">
                                 <IoCarSportOutline size={20} /> H o m e
                             </button>
-                            {/* <button onClick={() => setChenge("post")} className="btn btn-outline-light mt-4 mx-4">
-                                <BsPlusCircle size={18} /> P O S T
-                            </button> */}
-
-
                             <button onClick={() => setChenge("update")} style={{ width: "20%" }} className="btn btn-outline-light mt-4 mx-4">
                                 <BsPencilSquare size={18} /> MY C A R S
                             </button>

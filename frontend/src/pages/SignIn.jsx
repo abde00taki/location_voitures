@@ -24,7 +24,7 @@ export default function SignIn() {
       localStorage.setItem("user", JSON.stringify(res.data));
 
       alert("✅ Login successful!");
-      navigate("/"); // رجع للصفحة الرئيسية
+      navigate("/"); 
     } catch (err) {
       console.error(err);
       alert("❌ Invalid email or password");

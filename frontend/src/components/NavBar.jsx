@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { Navbar, Nav, Button, Container } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import { House, Tools, Phone, BoxArrowInRight } from "react-bootstrap-icons";
 import { IoCarSportOutline } from "react-icons/io5";
 import { NavLink, useNavigate } from "react-router-dom";
 import Profile from "../pages/Profile";
 import { CgProfile } from "react-icons/cg";
+import { IoIosLogOut } from "react-icons/io";
 
 const NavBar = ({ show }) => {
   const [navbarStyle, setNavbarStyle] = useState("transparent");
@@ -12,7 +13,6 @@ const NavBar = ({ show }) => {
 
   const navigate = useNavigate();
 
-  // ✅ جِب user من localStorage
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || null
   );
@@ -52,7 +52,6 @@ const NavBar = ({ show }) => {
   const linkClassName =
     navbarStyle === "white" ? "text-dark" : "text-light";
 
-  // 🔷 Sign Out
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
@@ -95,10 +94,10 @@ const NavBar = ({ show }) => {
                   <Phone /> Contact
                 </Nav.Link>
               </Nav>
+
               {!user && (
                 <NavLink
                   to={"/contact"}
-
                   className="btn btn-outline-success mx-3 d-flex align-items-center gap-1"
                 >
                   <BoxArrowInRight /> Sign Up
@@ -115,20 +114,37 @@ const NavBar = ({ show }) => {
                 </NavLink>
               ) : (
                 <>
-                  <button
-                    className="btn btn-outline-secondary mx-2"
-                    type="button"
-                    data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasRight"
-                    aria-controls="offcanvasRight"
-                  >
-                    <CgProfile /> Profile
-                  </button>
+
+                  {user?.role === "admin" && (
+                    <NavLink
+                      to="/admin"
+                      target="_blank"
+                      className="btn btn-outline-info mx-2 d-flex align-items-center gap-1"
+                      style={{ border: "none" }}
+                    >
+                      <Tools /> Admin Panel
+                    </NavLink>
+                  )}
+
+                  {user?.role !== "admin" && (
+                    <button
+                      className="btn btn-outline-secondary mx-2"
+                      type="button"
+                      data-bs-toggle="offcanvas"
+                      data-bs-target="#offcanvasRight"
+                      aria-controls="offcanvasRight"
+                      style={{ border: "none" }}
+                    >
+                      <CgProfile size={30} />
+                    </button>
+                  )}
+
                   <button
                     onClick={handleLogout}
-                    className="btn btn-danger mx-2"
+                    className="btn btn-outline-danger mx-2"
+                    style={{ border: "none" }}
                   >
-                    Sign Out
+                    <IoIosLogOut size={30} />
                   </button>
                 </>
               )}
@@ -137,7 +153,6 @@ const NavBar = ({ show }) => {
         </Navbar>
       )}
 
-      {/* Offcanvas Profile */}
       <div
         className="offcanvas offcanvas-end"
         tabIndex="-1"
