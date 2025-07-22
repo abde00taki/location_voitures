@@ -15,6 +15,7 @@ import InputBase from '@mui/material/InputBase';
 import Typography from "@mui/material/Typography";
 import { IoCarSportOutline } from "react-icons/io5";
 import { FaEye } from "react-icons/fa";
+import Profile from "../pages/Profile";
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -138,81 +139,112 @@ export default function PrimarySearchAppBar() {
     );
 
     return (
-        <Box sx={{ width: '100%', margin: 0, padding: 0, }} className="sticky-top " >
-            <AppBar
+        <>
+            <Box sx={{ width: '100%', margin: 0, padding: 0, }} className="sticky-top " >
+                <AppBar
 
-                sx={{
-                    backgroundColor: '#212529',
-                    width: "100%",
-                    margin: 0,
-                    padding: 0,
-                }}
+                    sx={{
+                        backgroundColor: '#212529',
+                        width: "100%",
+                        margin: 0,
+                        padding: 0,
+                    }}
+                >
+                    <Toolbar sx={{ width: '100%' }}>
+                        <Typography
+                            variant="h6"
+                            noWrap
+                            component="div"
+                            sx={{ display: { xs: 'none', sm: 'block' } }}
+                        >
+                            <IoCarSportOutline className="fs-1" /> LOCATION
+
+                        </Typography>
+
+
+
+                        <Box sx={{ flexGrow: 1 }} />
+                        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+
+                            <a href="http://localhost:5173/" target="_blank"
+                                rel="noopener noreferrer"  ><IconButton size="large" aria-label="show 4 new mails" color="inherit">
+
+                                    <FaEye color="white" />
+
+                                </IconButton></a>
+                            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                                <Badge badgeContent={4} color="error">
+                                    <MailIcon />
+                                </Badge>
+                            </IconButton>
+                            <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
+                                <Badge badgeContent={17} color="error">
+                                    <NotificationsIcon />
+                                </Badge>
+                            </IconButton>
+                            <IconButton
+                                size="large"
+                                edge="end"
+                                // aria-label="account of current user"
+                                // aria-controls={menuId}
+                                data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasRight"
+                                aria-controls="offcanvasRight"
+                                aria-haspopup="true"
+                                // onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+
+                                <AccountCircle /> 
+
+                            </IconButton>
+                        </Box>
+                        <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+
+                            <IconButton
+                                size="large"
+                                aria-label="show more"
+                                aria-controls={mobileMenuId}
+                                aria-haspopup="true"
+                                onClick={handleMobileMenuOpen}
+                                color="inherit"
+                            >
+                                <MoreIcon />
+                            </IconButton>
+
+
+                        </Box>
+                    </Toolbar>
+                </AppBar>
+                {renderMobileMenu}
+                {renderMenu}
+            </Box>
+
+
+            <div
+                className="offcanvas offcanvas-end"
+                tabIndex="-1"
+                id="offcanvasRight"
+                aria-labelledby="offcanvasRightLabel"
             >
-                <Toolbar sx={{ width: '100%' }}>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
-                    >
-                        <IoCarSportOutline className="fs-1" /> LOCATION
+                <div className="offcanvas-header">
+                    <h5 className="offcanvas-title" id="offcanvasRightLabel">
+                        Profile
+                    </h5>
+                    <button
+                        type="button"
+                        className="btn-close"
+                        data-bs-dismiss="offcanvas"
+                        aria-label="Close"
+                    ></button>
+                </div>
+                <div className="offcanvas-body">
+                    <Profile />
+                </div>
+            </div>
 
-                    </Typography>
-
-
-
-                    <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-
-                        <a href="http://localhost:5173/" target="_blank"
-                            rel="noopener noreferrer"  ><IconButton size="large" aria-label="show 4 new mails" color="inherit">
-
-                                <FaEye color="white" />
-
-                            </IconButton></a>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="error">
-                                <MailIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
-                            <Badge badgeContent={17} color="error">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
-                        <IconButton
-                            size="large"
-                            edge="end"
-                            aria-label="account of current user"
-                            aria-controls={menuId}
-                            aria-haspopup="true"
-                            onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-
-                            <AccountCircle />
-
-                        </IconButton>
-                    </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-
-                        <IconButton
-                            size="large"
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon />
-                        </IconButton>
+        </>
 
 
-                    </Box>
-                </Toolbar>
-            </AppBar>
-            {renderMobileMenu}
-            {renderMenu}
-        </Box>
     );
 }

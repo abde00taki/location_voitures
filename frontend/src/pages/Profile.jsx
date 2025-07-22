@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { FaBell } from "react-icons/fa";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -12,6 +13,12 @@ export default function Profile() {
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
 
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
+
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser) {
@@ -20,6 +27,14 @@ export default function Profile() {
       setLastname(storedUser.lastname);
       setEmail(storedUser.email);
       setPreview(`http://localhost:8888/uploads/${storedUser.image}`);
+
+      // 📨 جِب الإشعارات
+      axios
+        .get(`http://localhost:8888/notifications/${storedUser.id_user}`)
+        .then((res) => {
+          setNotifications(res.data);
+        })
+        .catch((err) => console.error(err));
     }
   }, [navigate]);
 
@@ -31,19 +46,23 @@ export default function Profile() {
     formData.append("lastname", lastname);
     formData.append("email", email);
     if (image) formData.append("image", image);
+    if (currentPassword) formData.append("currentPassword", currentPassword);
+    if (newPassword) formData.append("newPassword", newPassword);
 
     axios
       .put(`http://localhost:8888/users/${user.id_user}`, formData)
       .then((res) => {
-        alert("Profile updated!");
-        const updatedUser = { ...user, ...res.data };
+        alert(res.data.message || "Profile updated!");
+        const updatedUser = { ...user, name, lastname, email, image: res.data.image || user.image };
         setUser(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
-        setPreview(`http://localhost:8888/uploads/${res.data.image}`);
+        setPreview(`http://localhost:8888/uploads/${updatedUser.image}`);
+        setCurrentPassword("");
+        setNewPassword("");
       })
       .catch((err) => {
         console.error(err);
-        alert("Failed to update profile.");
+        alert(err.response?.data?.message || "Failed to update profile.");
       });
   };
 
@@ -59,7 +78,25 @@ export default function Profile() {
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card shadow p-4" style={{ width: "400px" }}>
-        <h3 className="text-center mb-4">My Profile</h3>
+        <div className="d-flex justify-content-between align-items-center mb-3">
+          <h3>My Profile</h3>
+
+          <div className="position-relative">
+            <FaBell
+              onClick={() => setShowNotifications(!showNotifications)}
+              style={{ cursor: "pointer", fontSize: "1.5rem" }}
+            />
+            {notifications.length > 0 && (
+              <span
+                className="badge bg-danger position-absolute top-0 start-100 translate-middle"
+                style={{ fontSize: "0.75rem" }}
+              >
+                {notifications.length}
+              </span>
+            )}
+          </div>
+        </div>
+
         <div className="text-center mb-3">
           <img
             src={preview}
@@ -68,6 +105,18 @@ export default function Profile() {
             style={{ width: "120px", height: "120px", objectFit: "cover" }}
           />
         </div>
+
+        {showNotifications && (
+          <div className="alert alert-info">
+            <h6>Notifications</h6>
+            <ul className="list-unstyled">
+              {notifications.map((n) => (
+                <li key={n.id_notification}>• {n.message}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} encType="multipart/form-data">
           <div className="mb-3">
             <label className="form-label">Name</label>
@@ -79,6 +128,7 @@ export default function Profile() {
               required
             />
           </div>
+
           <div className="mb-3">
             <label className="form-label">Lastname</label>
             <input
@@ -89,6 +139,7 @@ export default function Profile() {
               required
             />
           </div>
+
           <div className="mb-3">
             <label className="form-label">Email</label>
             <input
@@ -99,6 +150,29 @@ export default function Profile() {
               required
             />
           </div>
+
+          <div className="mb-3">
+            <label className="form-label">Current Password</label>
+            <input
+              type="password"
+              className="form-control"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+              placeholder="Enter current password"
+            />
+          </div>
+
+          <div className="mb-3">
+            <label className="form-label">New Password</label>
+            <input
+              type="password"
+              className="form-control"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+              placeholder="Enter new password"
+            />
+          </div>
+
           <div className="mb-3">
             <label className="form-label">Profile Image</label>
             <input
@@ -107,10 +181,12 @@ export default function Profile() {
               onChange={(e) => setImage(e.target.files[0])}
             />
           </div>
+
           <button type="submit" className="btn btn-primary w-100 mb-2">
             Update Profile
           </button>
         </form>
+
         <button onClick={handleSignOut} className="btn btn-danger w-100">
           Sign Out
         </button>

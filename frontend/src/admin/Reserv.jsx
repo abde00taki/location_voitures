@@ -16,24 +16,24 @@ export default function Reserve() {
         fetchRents();
     }, []);
 
-    const handleAccept = (id_car) => {
+    const handleUpdateStatus = (rent, status) => {
         axios
-            .put(`http://localhost:8888/cars/${id_car}`, { status: "rented" })
+            .put(`http://localhost:8888/rent/${rent.id_rent}`, {
+                status: status,
+                idUser: rent.id_user, // باش notification تعرف شكون
+            })
             .then(() => {
-                alert("Car marked as rented");
+                alert(
+                    status === "accepted"
+                        ? "Reservation accepted and user notified"
+                        : "Reservation rejected and user notified"
+                );
                 fetchRents();
             })
-            .catch((err) => console.error(err));
-    };
-
-    const handleRefuse = (id_rent) => {
-        axios
-            .delete(`http://localhost:8888/rent/${id_rent}`)
-            .then(() => {
-                alert("Reservation refused and deleted");
-                fetchRents();
-            })
-            .catch((err) => console.error(err));
+            .catch((err) => {
+                console.error(err);
+                alert("Error updating reservation");
+            });
     };
 
     return (
@@ -46,13 +46,13 @@ export default function Reserve() {
                             <Card.Body>
                                 <h5>User Info</h5>
                                 <p>
-                                    <strong>Name:</strong> {rent.name} <br />
+                                    <strong>Name:</strong> {rent.name} {rent.lastname} <br />
                                     <strong>Email:</strong> {rent.email}
                                 </p>
 
                                 <h5>Car Info</h5>
                                 <p>
-                                    <strong>Marque:</strong> {rent.marck} <br />
+                                    <strong>Marque:</strong> {rent.marque} <br />
                                     <strong>Matricule:</strong> {rent.matricule}
                                 </p>
 
@@ -62,20 +62,36 @@ export default function Reserve() {
                                     <strong>To:</strong> {rent.date_fin}
                                 </p>
 
-                                <div className="d-flex justify-content-between mt-3">
-                                    <Button
-                                        variant="success"
-                                        onClick={() => handleAccept(rent.id_car)}
+                                <h5>Status</h5>
+                                <p>
+                                    <span
+                                        className={`badge ${rent.status === "pending"
+                                                ? "bg-warning"
+                                                : rent.status === "accepted"
+                                                    ? "bg-success"
+                                                    : "bg-danger"
+                                            }`}
                                     >
-                                        Accept
-                                    </Button>
-                                    <Button
-                                        variant="danger"
-                                        onClick={() => handleRefuse(rent.id_rent)}
-                                    >
-                                        Refuse
-                                    </Button>
-                                </div>
+                                        {rent.status}
+                                    </span>
+                                </p>
+
+                                {rent.status === "pending" && (
+                                    <div className="d-flex justify-content-between mt-3">
+                                        <Button
+                                            variant="success"
+                                            onClick={() => handleUpdateStatus(rent, "accepted")}
+                                        >
+                                            Accept
+                                        </Button>
+                                        <Button
+                                            variant="danger"
+                                            onClick={() => handleUpdateStatus(rent, "rejected")}
+                                        >
+                                            Reject
+                                        </Button>
+                                    </div>
+                                )}
                             </Card.Body>
                         </Card>
                     </Col>

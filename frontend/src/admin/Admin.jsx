@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import HelloAdmin from "../components/HelloAdmin";
 import CardCars from "../components/CardCars";
+import Reservation from "../pages/reservation";
 
 export default function Admin() {
     const [marque, setMarque] = useState("");
@@ -160,8 +161,8 @@ export default function Admin() {
                                         <button className="btn btn-success" type="submit">Search</button>
                                     </div>
                                     <div>
-                                        <button onClick={handelChengePost} className="btn btn-outline-light  mx-4">
-                                            <BsPlusCircle size={18} /> 
+                                        <button onClick={handelChengePost} className="btn btn-outline-primary  mx-4">
+                                            <BsPlusCircle size={18} />
                                         </button>
                                     </div>
                                 </div>
@@ -189,6 +190,7 @@ export default function Admin() {
 
                             </div>
                         </div>
+                        
                     </div>
 
 
@@ -200,7 +202,7 @@ export default function Admin() {
 
 
 
-            
+
         </>
     );
 }

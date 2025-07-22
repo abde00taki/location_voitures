@@ -14,10 +14,12 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 const carRoutes = require('./routes/cars');
 const userRoutes = require('./routes/users');
 const rentRoutes = require('./routes/rents');
+const notificationRoutes = require('./routes/notification');
 
 app.use('/cars', carRoutes);
 app.use('/users', userRoutes);
 app.use('/rent', rentRoutes);
+app.use('/', notificationRoutes);
 
 app.get('/', (req, res) => {
   res.send(' Location Voitures API with multer is running!');

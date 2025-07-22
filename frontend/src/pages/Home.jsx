@@ -83,6 +83,7 @@ export default function Home() {
                     price={car.price}
                     fuel={car.fuel}
                     image={car.image}
+                    id={car.id_car}
                   />
                 </SwiperSlide>
               ))}
@@ -132,6 +133,7 @@ export default function Home() {
         <div className="w-100 d-flex justify-content-center bg-dark align-items-center " style={{ height: "50vh", backgroundImage: "url(carhome.jpg)", backgroundPosition: "center", backgroundSize: "cover", backgroundAttachment: "fixed" }}></div>
         
       </div>
+
     </div>
   );
 }

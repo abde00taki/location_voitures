@@ -84,32 +84,66 @@ router.delete('/:id', (req, res) => {
 });
 
 
-// PUT update user profile
-router.put("/:id", upload.single("image"), (req, res) => {
+
+// 🔷 PUT update profile (with password + notifications)
+router.put("/:id", (req, res) => {
   const id = req.params.id;
-  const { name, lastname, email } = req.body;
-  const image = req.file ? req.file.filename : null;
 
-  let query = "UPDATE users SET name=?, lastname=?, email=?";
-  const values = [name, lastname, email];
+  const { name, lastname, email, currentPassword, newPassword } = req.body;
 
-  if (image) {
-    query += ", image=?";
-    values.push(image);
-  }
+  const image = req.file?.filename;
 
-  query += " WHERE id_user=?";
-  values.push(id);
+  db.query("SELECT password FROM users WHERE id_user = ?", [id], async (err, results) => {
+    if (err) return res.status(500).json({ message: "DB error", error: err.message });
 
-  db.query(query, values, (err) => {
-    if (err) return res.status(500).json({ error: err.message });
+    const user = results[0];
+    if (!user) return res.status(404).json({ message: "User not found" });
 
-    const updatedUser = { name, lastname, email };
-    if (image) updatedUser.image = image;
+    let sql = "UPDATE users SET name=?, lastname=?, email=?";
+    const updates = [name, lastname, email];
 
-    res.json(updatedUser);
+    if (image) {
+      sql += ", image=?";
+      updates.push(image);
+    }
+
+    if (currentPassword && newPassword) {
+      const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!passwordMatch) {
+        return res.status(400).json({ message: "Current password is incorrect" });
+      }
+
+      const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+      sql += ", password=?";
+      updates.push(hashedNewPassword);
+    }
+
+    sql += " WHERE id_user=?";
+    updates.push(id);
+
+    db.query(sql, updates, (err) => {
+      if (err) return res.status(500).json({ message: "DB error", error: err.message });
+
+      res.json({ message: "Profile updated successfully", image });
+    });
   });
 });
+
+// 🔷 GET notifications
+router.get("/:id/notifications", (req, res) => {
+  const id = req.params.id;
+
+  db.query(
+    "SELECT * FROM notifications WHERE id_user = ? ORDER BY created_at DESC",
+    [id],
+    (err, results) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(results);
+    }
+  );
+});
+
+
 
 
 module.exports = router;
