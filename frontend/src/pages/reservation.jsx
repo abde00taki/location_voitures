@@ -30,7 +30,7 @@ export default function Reservation() {
             });
     }, [id, navigate]);
 
-    const handleSubmit = (e) => {
+    const  handleSubmit = (e) => {
         e.preventDefault();
 
         axios

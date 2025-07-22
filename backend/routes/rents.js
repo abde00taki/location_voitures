@@ -31,9 +31,9 @@ router.get("/", (req, res) => {
 
 // 🔷 POST new rent
 router.post("/", (req, res) => {
-  const { dateDepart, dateFin, idCar, idUser } = req.body;
+  const { date_depart, date_fin,  id_car, id_user } = req.body;
 
-  if (!dateDepart || !dateFin || !idCar || !idUser) {
+  if (!date_depart || !date_fin || ! id_car || !id_user) {
     return res.status(400).json({ message: "All fields are required" });
   }
 
@@ -42,7 +42,7 @@ router.post("/", (req, res) => {
     INSERT INTO rent (date_depart, date_fin, id_car, id_user, status)
     VALUES (?, ?, ?, ?, 'pending')
     `,
-    [dateDepart, dateFin, idCar, idUser],
+    [date_depart, date_fin,  id_car, id_user],
     (err, result) => {
       if (err) {
         console.error(err);
@@ -53,10 +53,10 @@ router.post("/", (req, res) => {
 
       res.json({
         idRent: result.insertId,
-        dateDepart,
-        dateFin,
-        idCar,
-        idUser,
+        date_depart,
+        date_fin,
+         id_car,
+        id_user,
         status: "pending",
       });
     }
