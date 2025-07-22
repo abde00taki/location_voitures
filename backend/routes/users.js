@@ -85,8 +85,8 @@ router.delete('/:id', (req, res) => {
 
 
 
-// 🔷 PUT update profile (with password + notifications)
-router.put("/:id", (req, res) => {
+// 🔷 PUT update profile (with password + notifications + image)
+router.put("/:id", upload.single("image"), (req, res) => {
   const id = req.params.id;
 
   const { name, lastname, email, currentPassword, newPassword } = req.body;
@@ -128,6 +128,7 @@ router.put("/:id", (req, res) => {
     });
   });
 });
+
 
 // 🔷 GET notifications
 router.get("/:id/notifications", (req, res) => {

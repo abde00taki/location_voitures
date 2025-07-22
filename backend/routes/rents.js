@@ -63,96 +63,59 @@ router.post("/", (req, res) => {
   );
 });
 
-// 🔷 PUT update rent status (admin)
-router.put("/:idRent", (req, res) => {
+router.put('/:id', (req, res) => {
   const { status, idUser } = req.body;
 
-  if (!["pending", "accepted", "rejected"].includes(status)) {
-    return res.status(400).json({ message: "Invalid status value" });
+  if (!['pending', 'accepted', 'rejected'].includes(status)) {
+    return res.status(400).json({ message: 'Invalid status value' });
   }
 
-  // ✅ update rent status
   db.query(
-    `
-    UPDATE rent SET status = ? WHERE id_rent = ?
-    `,
-    [status, req.params.idRent],
+    `UPDATE rent SET status = ? WHERE id_rent = ?`,
+    [status, req.params.id],
     (err) => {
       if (err) {
         console.error(err);
-        return res
-          .status(500)
-          .json({ error: "Database error", details: err.message });
+        return res.status(500).json({ error: 'Database error', details: err.message });
       }
 
-      // ✅ if accepted => update car & add notification
-      if (status === "accepted") {
-        db.query(
-          `
-          UPDATE car 
-          SET status = 'rented' 
-          WHERE id_car = (
-            SELECT id_car FROM rent WHERE id_rent = ?
-          )
-          `,
-          [req.params.idRent],
-          (err) => {
-            if (err) {
-              console.error(err);
-              return res.status(500).json({
-                error: "Failed to update car status",
-                details: err.message,
-              });
-            }
+      const message =
+        status === 'accepted'
+          ? 'Your reservation has been accepted'
+          : 'Your reservation has been rejected';
 
-            // ✅ insert notification
+      // 🔷 إدخال notification
+      db.query(
+        `INSERT INTO notifications (id_user, message) VALUES (?, ?)`,
+        [idUser, message],
+        (err) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Failed to insert notification', details: err.message });
+          }
+
+          if (status === 'accepted') {
+            // ✅ أيضا تحديث car -> rented
             db.query(
-              `
-              INSERT INTO notifications (id_user, message) 
-              VALUES (?, ?)
-              `,
-              [idUser, "Your reservation has been accepted ✅"],
+              `UPDATE car SET status = 'rented' WHERE id_car = (SELECT id_car FROM rent WHERE id_rent = ?)`,
+              [req.params.id],
               (err) => {
                 if (err) {
                   console.error(err);
-                  return res.status(500).json({
-                    error: "Failed to create notification",
-                    details: err.message,
-                  });
+                  return res.status(500).json({ error: 'Failed to update car status', details: err.message });
                 }
 
-                res.json({
-                  message: "Reservation accepted, car rented & user notified",
-                });
+                res.json({ message: `Reservation ${status} and user notified` });
               }
             );
+          } else {
+            res.json({ message: `Reservation ${status} and user notified` });
           }
-        );
-      } else if (status === "rejected") {
-        // ✅ insert notification rejected
-        db.query(
-          `
-          INSERT INTO notifications (id_user, message) 
-          VALUES (?, ?)
-          `,
-          [idUser, "Your reservation has been rejected ❌"],
-          (err) => {
-            if (err) {
-              console.error(err);
-              return res.status(500).json({
-                error: "Failed to create notification",
-                details: err.message,
-              });
-            }
-
-            res.json({ message: "Reservation rejected & user notified" });
-          }
-        );
-      } else {
-        res.json({ message: `Reservation updated to ${status}` });
-      }
+        }
+      );
     }
   );
 });
+
 
 module.exports = router;
