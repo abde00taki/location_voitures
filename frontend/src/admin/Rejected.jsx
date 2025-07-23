@@ -7,17 +7,18 @@ import {
     FaCar,
     FaCalendarAlt,
     FaCheckCircle,
-    FaExclamationTriangle
+    FaExclamationTriangle,
+    FaTimesCircle
 } from "react-icons/fa";
 
 
 
-export default function Accepted() {
+export default function Rejected() {
     const [rents, setRents] = useState([]);
 
     const fetchRents = () => {
         axios
-            .get("http://localhost:8888/rent/accepted")
+            .get("http://localhost:8888/rent/rejected")
             .then((res) => setRents(res.data))
             .catch((err) => console.error(err));
     };
@@ -55,7 +56,7 @@ export default function Accepted() {
                     {rents.map((rent) => (
                         <Col md={4} key={rent.id_rent} className="mb-4">
 
-                            <Card style={{ backgroundColor: "rgba(76, 231, 37, 0.05)" }}>
+                            <Card style={{ backgroundColor: "rgba(231, 37, 37, 0.18)" }}>
                                 <Card.Body>
                                     <h5 className="d-flex align-items-center gap-2">
                                         <FaUser /> User Info

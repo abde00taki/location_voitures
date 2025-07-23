@@ -77,36 +77,14 @@ export default function UpdateCar({ onUpdateSuccess }) {
                         <br />
                         <div className="d-flex flex-column mt-4 align-items-start vh-100 p-3">
                             <button
-                                onClick={() => setChenge("home")}
+                                
                                 style={{ width: "20%" }}
                                 className="btn btn-outline-light mx-4"
                             >
                                 <Link to={'/admin'}><IoCarSportOutline size={20} /> H o m e</Link>
                             </button>
 
-                            <button
-                                onClick={() => setChenge("post")}
-                                style={{ width: "20%" }}
-                                className="btn btn-outline-light mt-4 mx-4"
-                            >
-                                <BsPlusCircle size={18} /> P O S T
-                            </button>
-
-                            <button
-                                onClick={() => setChenge("update")}
-                                style={{ width: "20%" }}
-                                className="btn btn-outline-light mt-4 mx-4"
-                            >
-                                <BsPencilSquare size={18} /> U P D A T E
-                            </button>
-
-                            <button
-                                onClick={() => setChenge("delete")}
-                                style={{ width: "20%" }}
-                                className="btn btn-outline-light mt-4 mx-4"
-                            >
-                                <BsTrash size={18} /> D E L E T E
-                            </button>
+                            
                         </div>
                     </div>
                 </div>
@@ -124,59 +102,96 @@ export default function UpdateCar({ onUpdateSuccess }) {
                 >
 
                     <div className="container mt-4">
-                        <h2>Update Car</h2>
-                        <form onSubmit={handleSubmit}>
-                            <label>Marque</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={marque}
-                                onChange={(e) => setMarque(e.target.value)}
-                            />
+                        <div className="d-flex justify-content-center align-items-center vh-100 text-light">
+                            <div
+                                className="card shadow-lg"
+                                style={{
+                                    width: "75%",
+                                    backgroundColor: "#2c2f33",
+                                    borderRadius: "12px",
+                                }}
+                            >
+                                <div className="card-header text-center bg-dark text-light">
+                                    <h4>Update Car</h4>
+                                </div>
+                                <div className="card-body">
+                                    <form onSubmit={handleSubmit} className="text-light">
+                                        <div className="mb-3">
+                                            <label className="form-label">Marque</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="e.g. BMW"
+                                                value={marque}
+                                                onChange={(e) => setMarque(e.target.value)}
+                                            />
+                                        </div>
 
-                            <label className="mt-3">Modele</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={modele}
-                                onChange={(e) => setModele(e.target.value)}
-                            />
+                                        <div className="mb-3">
+                                            <label className="form-label">Modele</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="e.g. X5"
+                                                value={modele}
+                                                onChange={(e) => setModele(e.target.value)}
+                                            />
+                                        </div>
 
-                            <label className="mt-3">Matricule</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={matricule}
-                                onChange={(e) => setMatricule(e.target.value)}
-                            />
+                                        <div className="mb-3">
+                                            <label className="form-label">Matricule</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="e.g. 1234-ABC"
+                                                value={matricule}
+                                                onChange={(e) => setMatricule(e.target.value)}
+                                            />
+                                        </div>
 
-                            <label className="mt-3">Price</label>
-                            <input
-                                type="number"
-                                className="form-control"
-                                value={price}
-                                onChange={(e) => setPrice(e.target.value)}
-                            />
+                                        <div className="mb-3">
+                                            <label className="form-label">Price</label>
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                placeholder="Price per day"
+                                                value={price}
+                                                onChange={(e) => setPrice(e.target.value)}
+                                            />
+                                        </div>
 
-                            <label className="mt-3">Fuel</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                value={fuel}
-                                onChange={(e) => setFuel(e.target.value)}
-                            />
+                                        <div className="mb-3">
+                                            <label className="form-label">Fuel</label>
+                                            <select
+                                                className="form-select"
+                                                value={fuel}
+                                                onChange={(e) => setFuel(e.target.value)}
+                                            >
+                                                <option value="">-- Select fuel type --</option>
+                                                <option value="essence">Essence</option>
+                                                <option value="diesel">Diesel</option>
+                                            </select>
+                                        </div>
 
-                            <label className="mt-3">Image</label>
-                            <input
-                                type="file"
-                                className="form-control"
-                                onChange={(e) => setImage(e.target.files[0])}
-                            />
+                                        <div className="mb-3">
+                                            <label className="form-label">Image</label>
+                                            <input
+                                                type="file"
+                                                className="form-control"
+                                                onChange={(e) => setImage(e.target.files[0])}
+                                            />
+                                        </div>
 
-                            <button type="submit" className="btn btn-primary mt-4">
-                                Update Car
-                            </button>
-                        </form>
+                                        <div className="text-center">
+                                            <button type="submit" className="btn btn-primary w-100">
+                                                Update Car
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
 

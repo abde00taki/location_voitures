@@ -13,6 +13,8 @@ import SignIn from './pages/SignIn'
 import Profile from './pages/Profile'
 import Reservation from './pages/reservation'
 import Reserve from './admin/Reserv'
+import MyReserv from './components/MyReserv'
+import Accepted from './admin/Accept'
 
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
         <Route path="/signin" element={<SignIn/>} />
         <Route path="/profile" element={<Profile/>} />
         <Route path="/reserve" element={<Reserve/>} />
+        <Route path="/myreserv" element={<MyReserv/>} />
+        <Route path="/accepted" element={<Accepted/>} />
         <Route path="/update/:id" element={<UpdateCar />} />
         <Route path="/resrvation/:id" element={<Reservation />} />
       </Routes>

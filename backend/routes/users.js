@@ -89,7 +89,7 @@ router.delete('/:id', (req, res) => {
 router.put("/:id", upload.single("image"), (req, res) => {
   const id = req.params.id;
 
-  const { name, lastname, email, currentPassword, newPassword } = req.body;
+  const { name, lastname,  currentPassword, newPassword } = req.body;
 
   const image = req.file?.filename;
 
@@ -99,8 +99,8 @@ router.put("/:id", upload.single("image"), (req, res) => {
     const user = results[0];
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    let sql = "UPDATE users SET name=?, lastname=?, email=?";
-    const updates = [name, lastname, email];
+    let sql = "UPDATE users SET name=?, lastname=?";
+    const updates = [name, lastname];
 
     if (image) {
       sql += ", image=?";

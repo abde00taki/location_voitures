@@ -9,7 +9,7 @@ export default function Profile() {
   const [user, setUser] = useState(null);
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
 
@@ -25,10 +25,10 @@ export default function Profile() {
       setUser(storedUser);
       setName(storedUser.name);
       setLastname(storedUser.lastname);
-      setEmail(storedUser.email);
+      // setEmail(storedUser.email);
       setPreview(`http://localhost:8888/uploads/${storedUser.image}`);
 
-      // 📨 جِب الإشعارات
+      // hna kanjibo lmissagat
       axios
         .get(`http://localhost:8888/notifications/${storedUser.id_user}`)
         .then((res) => {
@@ -44,7 +44,7 @@ export default function Profile() {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("lastname", lastname);
-    formData.append("email", email);
+    // formData.append("email", email);
     if (image) formData.append("image", image);
     if (currentPassword) formData.append("currentPassword", currentPassword);
     if (newPassword) formData.append("newPassword", newPassword);
@@ -53,7 +53,7 @@ export default function Profile() {
       .put(`http://localhost:8888/users/${user.id_user}`, formData)
       .then((res) => {
         alert(res.data.message || "Profile updated!");
-        const updatedUser = { ...user, name, lastname, email, image: res.data.image || user.image };
+        const updatedUser = { ...user, name, lastname,  image: res.data.image || user.image };
         setUser(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setPreview(`http://localhost:8888/uploads/${updatedUser.image}`);
@@ -140,7 +140,7 @@ export default function Profile() {
             />
           </div>
 
-          <div className="mb-3">
+          {/* <div className="mb-3">
             <label className="form-label">Email</label>
             <input
               type="email"
@@ -149,7 +149,7 @@ export default function Profile() {
               onChange={(e) => setEmail(e.target.value)}
               required
             />
-          </div>
+          </div> */}
 
           <div className="mb-3">
             <label className="form-label">Current Password</label>

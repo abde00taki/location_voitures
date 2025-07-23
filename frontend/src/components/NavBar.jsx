@@ -171,6 +171,7 @@ const NavBar = ({ show }) => {
           ></button>
         </div>
         <div className="offcanvas-body">
+          <hr className="text-light" /><br />
           <Profile />
         </div>
       </div>
