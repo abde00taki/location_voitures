@@ -13,6 +13,7 @@ import 'swiper/css/effect-coverflow';
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CardCars from "../components/CardCars";
+import Footer from "../components/Footer";
 
 
 export default function Home() {
@@ -133,6 +134,7 @@ export default function Home() {
         <div className="w-100 d-flex justify-content-center bg-dark align-items-center " style={{ height: "50vh", backgroundImage: "url(carhome.jpg)", backgroundPosition: "center", backgroundSize: "cover", backgroundAttachment: "fixed" }}></div>
         
       </div>
+      <Footer />
 
     </div>
   );

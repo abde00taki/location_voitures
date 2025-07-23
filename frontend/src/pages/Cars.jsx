@@ -4,6 +4,7 @@ import axios from "axios";
 import Video2 from "../components/Video2";
 import CardCars from "../components/CardCars";
 import { Autocomplete, TextField, Alert } from "@mui/material";
+import Footer from "../components/Footer";
 
 export default function Cars() {
     const [cars, setCars] = useState([]);
@@ -91,6 +92,7 @@ export default function Cars() {
                     )}
                 </div>
             </div>
+            <Footer />
         </>
     );
 }

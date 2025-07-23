@@ -75,7 +75,7 @@ export default function Reservation() {
                                     <Form.Group className="mb-3">
                                         <Form.Label>Start Date</Form.Label>
                                         <Form.Control
-                                            type="date"
+                                            type="datetime-local"
                                             value={date_depart}
                                             onChange={(e) => setDateDepart(e.target.value)}
                                             required
@@ -85,7 +85,7 @@ export default function Reservation() {
                                     <Form.Group className="mb-3">
                                         <Form.Label>End Date</Form.Label>
                                         <Form.Control
-                                            type="date"
+                                            type="datetime-local"
                                             value={date_fin}
                                             onChange={(e) => setDateFin(e.target.value)}
                                             required

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { FaBell } from "react-icons/fa";
+import { FaShoppingCart, FaTrash } from "react-icons/fa";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -9,15 +9,14 @@ export default function Profile() {
   const [user, setUser] = useState(null);
   const [name, setName] = useState("");
   const [lastname, setLastname] = useState("");
-  // const [email, setEmail] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState("");
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
-  const [notifications, setNotifications] = useState([]);
-  const [showNotifications, setShowNotifications] = useState(false);
+  const [orders, setOrders] = useState([]);
+  const [showOrders, setShowOrders] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -25,18 +24,35 @@ export default function Profile() {
       setUser(storedUser);
       setName(storedUser.name);
       setLastname(storedUser.lastname);
-      // setEmail(storedUser.email);
       setPreview(`http://localhost:8888/uploads/${storedUser.image}`);
 
-      // hna kanjibo lmissagat
+      // جلب commandes ديال هاد المستخدم
       axios
-        .get(`http://localhost:8888/notifications/${storedUser.id_user}`)
+        .get(`http://localhost:8888/rent`)
         .then((res) => {
-          setNotifications(res.data);
+          const myOrders = res.data.filter(
+            (order) => order.id_user === storedUser.id_user
+          );
+          setOrders(myOrders);
         })
         .catch((err) => console.error(err));
     }
   }, [navigate]);
+
+  const handleDeleteOrder = (id_rent) => {
+    if (!window.confirm("Are you sure you want to delete this order?")) return;
+
+    axios
+      .delete(`http://localhost:8888/rent/${id_rent}`)
+      .then(() => {
+        setOrders((prev) => prev.filter((o) => o.id_rent !== id_rent));
+        alert("Order deleted.");
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("Failed to delete order.");
+      });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,7 +60,6 @@ export default function Profile() {
     const formData = new FormData();
     formData.append("name", name);
     formData.append("lastname", lastname);
-    // formData.append("email", email);
     if (image) formData.append("image", image);
     if (currentPassword) formData.append("currentPassword", currentPassword);
     if (newPassword) formData.append("newPassword", newPassword);
@@ -53,7 +68,12 @@ export default function Profile() {
       .put(`http://localhost:8888/users/${user.id_user}`, formData)
       .then((res) => {
         alert(res.data.message || "Profile updated!");
-        const updatedUser = { ...user, name, lastname,  image: res.data.image || user.image };
+        const updatedUser = {
+          ...user,
+          name,
+          lastname,
+          image: res.data.image || user.image,
+        };
         setUser(updatedUser);
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setPreview(`http://localhost:8888/uploads/${updatedUser.image}`);
@@ -79,22 +99,12 @@ export default function Profile() {
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card shadow p-4" style={{ width: "400px" }}>
         <div className="d-flex justify-content-between align-items-center mb-3">
-          <h3>My Profile</h3>
-
-          <div className="position-relative">
-            <FaBell
-              onClick={() => setShowNotifications(!showNotifications)}
-              style={{ cursor: "pointer", fontSize: "1.5rem" }}
-            />
-            {notifications.length > 0 && (
-              <span
-                className="badge bg-danger position-absolute top-0 start-100 translate-middle"
-                style={{ fontSize: "0.75rem" }}
-              >
-                {notifications.length}
-              </span>
-            )}
-          </div>
+          {/* icons dyal my comond */}
+          <FaShoppingCart
+            onClick={() => setShowOrders(!showOrders)}
+            style={{ cursor: "pointer", fontSize: "1.5rem" }}
+            title="My Orders"
+          />
         </div>
 
         <div className="text-center mb-3">
@@ -106,14 +116,32 @@ export default function Profile() {
           />
         </div>
 
-        {showNotifications && (
+        {showOrders && (
           <div className="alert alert-info">
-            <h6>Notifications</h6>
-            <ul className="list-unstyled">
-              {notifications.map((n) => (
-                <li key={n.id_notification}>• {n.message}</li>
-              ))}
-            </ul>
+            <h6>My Orders</h6>
+            {orders.length > 0 ? (
+              <ul className="list-unstyled">
+                {orders.map((order) => (
+                  <li
+                    key={order.id_rent}
+                    className="d-flex justify-content-between align-items-center mb-1"
+                  >
+                    <span>
+                      {order.marque} | {order.date_depart} → {order.date_fin} |{" "}
+                      <strong>{order.status}</strong>
+                    </span>
+                    <button
+                      onClick={() => handleDeleteOrder(order.id_rent)}
+                      className="btn btn-sm btn-danger"
+                    >
+                      <FaTrash />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No orders yet.</p>
+            )}
           </div>
         )}
 
@@ -139,17 +167,6 @@ export default function Profile() {
               required
             />
           </div>
-
-          {/* <div className="mb-3">
-            <label className="form-label">Email</label>
-            <input
-              type="email"
-              className="form-control"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div> */}
 
           <div className="mb-3">
             <label className="form-label">Current Password</label>
