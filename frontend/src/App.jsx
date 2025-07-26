@@ -15,6 +15,8 @@ import Reservation from './pages/reservation'
 import Reserve from './admin/Reserv'
 import MyReserv from './components/MyReserv'
 import Accepted from './admin/Accept'
+import Comond from './pages/Comond'
+import Drop from './admin/Drop'
 
 
 function App() {
@@ -39,8 +41,10 @@ function App() {
         <Route path="/reserve" element={<Reserve/>} />
         <Route path="/myreserv" element={<MyReserv/>} />
         <Route path="/accepted" element={<Accepted/>} />
+        <Route path="/drop" element={<Drop/>} />
         <Route path="/update/:id" element={<UpdateCar />} />
         <Route path="/resrvation/:id" element={<Reservation />} />
+        <Route path="/comond/:id" element={<Comond />} />
       </Routes>
 
     </>

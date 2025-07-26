@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { FaShoppingCart, FaTrash } from "react-icons/fa";
+import { NavLink, useNavigate } from "react-router-dom";
+import { FaBell } from "react-icons/fa";
+import { FaRegAddressCard } from "react-icons/fa";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -15,8 +16,8 @@ export default function Profile() {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
-  const [orders, setOrders] = useState([]);
-  const [showOrders, setShowOrders] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotifications, setShowNotifications] = useState(false);
 
   useEffect(() => {
     const storedUser = JSON.parse(localStorage.getItem("user"));
@@ -26,33 +27,14 @@ export default function Profile() {
       setLastname(storedUser.lastname);
       setPreview(`http://localhost:8888/uploads/${storedUser.image}`);
 
-      // جلب commandes ديال هاد المستخدم
       axios
-        .get(`http://localhost:8888/rent`)
+        .get(`http://localhost:8888/notifications/${storedUser.id_user}`)
         .then((res) => {
-          const myOrders = res.data.filter(
-            (order) => order.id_user === storedUser.id_user
-          );
-          setOrders(myOrders);
+          setNotifications(res.data);
         })
         .catch((err) => console.error(err));
     }
   }, [navigate]);
-
-  const handleDeleteOrder = (id_rent) => {
-    if (!window.confirm("Are you sure you want to delete this order?")) return;
-
-    axios
-      .delete(`http://localhost:8888/rent/${id_rent}`)
-      .then(() => {
-        setOrders((prev) => prev.filter((o) => o.id_rent !== id_rent));
-        alert("Order deleted.");
-      })
-      .catch((err) => {
-        console.error(err);
-        alert("Failed to delete order.");
-      });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -99,12 +81,22 @@ export default function Profile() {
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card shadow p-4" style={{ width: "400px" }}>
         <div className="d-flex justify-content-between align-items-center mb-3">
-          {/* icons dyal my comond */}
-          <FaShoppingCart
-            onClick={() => setShowOrders(!showOrders)}
-            style={{ cursor: "pointer", fontSize: "1.5rem" }}
-            title="My Orders"
-          />
+        <NavLink to={'/comond/'+user.id_user}><FaRegAddressCard size={34}/></NavLink>
+
+          <div className="position-relative mt-1">
+            <FaBell
+              onClick={() => setShowNotifications(!showNotifications)}
+              style={{ cursor: "pointer", fontSize: "1.5rem" }}
+            />
+            {notifications.length > 0 && (
+              <span
+                className="badge bg-danger position-absolute top-0 start-100 translate-middle"
+                style={{ fontSize: "0.75rem" }}
+              >
+                {notifications.length}
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="text-center mb-3">
@@ -116,32 +108,14 @@ export default function Profile() {
           />
         </div>
 
-        {showOrders && (
+        {showNotifications && (
           <div className="alert alert-info">
-            <h6>My Orders</h6>
-            {orders.length > 0 ? (
-              <ul className="list-unstyled">
-                {orders.map((order) => (
-                  <li
-                    key={order.id_rent}
-                    className="d-flex justify-content-between align-items-center mb-1"
-                  >
-                    <span>
-                      {order.marque} | {order.date_depart} → {order.date_fin} |{" "}
-                      <strong>{order.status}</strong>
-                    </span>
-                    <button
-                      onClick={() => handleDeleteOrder(order.id_rent)}
-                      className="btn btn-sm btn-danger"
-                    >
-                      <FaTrash />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>No orders yet.</p>
-            )}
+            <h6>Notifications</h6>
+            <ul className="list-unstyled">
+              {notifications.map((n) => (
+                <li key={n.id_notification}>• {n.message}</li>
+              ))}
+            </ul>
           </div>
         )}
 

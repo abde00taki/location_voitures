@@ -102,6 +102,31 @@ router.get('/rejected', (req, res) => {
     }
   );
 });
+// hna kanjib comond li rj3o talab  
+router.get('/drop', (req, res) => {
+  db.query(
+    `
+    SELECT 
+      rent.*, 
+      car.marque, 
+      car.matricule, 
+      users.name, 
+      users.lastname, 
+      users.email 
+    FROM rent 
+    JOIN car ON rent.id_car = car.id_car 
+    JOIN users ON rent.id_user = users.id_user
+    WHERE rent.status = 'drop'
+    `,
+    (err, results) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Database error', details: err.message });
+      }
+      res.json(results);
+    }
+  );
+});
 
 
 // 🔷 POST new rent
@@ -194,6 +219,51 @@ router.put('/:id', (req, res) => {
           }
         }
       );
+    }
+  );
+});
+
+// ✅ GET rent by ID (with car info and user info)
+// ✅ GET all rents of a specific user
+router.get('/user/:id_user', (req, res) => {
+  const { id_user } = req.params;
+
+  const sql = `
+    SELECT 
+      rent.*, 
+      car.marque, 
+      car.matricule 
+    FROM rent 
+    JOIN car ON rent.id_car = car.id_car 
+    WHERE rent.id_user = ?
+    ORDER BY rent.date_depart DESC
+  `;
+
+  db.query(sql, [id_user], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Database error', details: err.message });
+    }
+
+    res.json(results);
+  });
+});
+
+
+// ✅ PUT drop rent
+router.put('/:id/drop', (req, res) => {
+  const rentId = req.params.id;
+
+  db.query(
+    `UPDATE rent SET status = 'drop' WHERE id_rent = ?`,
+    [rentId],
+    (err, result) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ error: 'Failed to update rent status', details: err.message });
+      }
+
+      res.json({ message: 'Reservation dropped successfully' });
     }
   );
 });

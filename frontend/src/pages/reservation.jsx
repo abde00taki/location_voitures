@@ -1,106 +1,203 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import {
+  Container,
+  TextField,
+  Button,
+  Card,
+  Typography,
+  Alert,
+  Snackbar,
+  Box,
+  Stepper,
+  Step,
+  StepLabel,
+} from "@mui/material";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
 import axios from "axios";
-import { Form, Button, Container, Card, Row, Col } from "react-bootstrap";
+
+const steps = [
+  { label: "Check Login", icon: <AccountCircleIcon /> },
+  { label: "Select Dates", icon: <CalendarMonthIcon /> },
+  { label: "Bank Info", icon: <CreditCardIcon /> },
+];
 
 export default function Reservation() {
-    const { id } = useParams();
-    const navigate = useNavigate();
+  const { id } = useParams();
+  const navigate = useNavigate();
 
-    const [car, setCar] = useState(null);
-    const [date_depart, setDateDepart] = useState("");
-    const [date_fin, setDateFin] = useState("");
+  const [activeStep, setActiveStep] = useState(0);
+  const [car, setCar] = useState(null);
+  const [date_depart, setDateDepart] = useState("");
+  const [date_fin, setDateFin] = useState("");
+  const [accountNumber, setAccountNumber] = useState("");
+  const [accountPassword, setAccountPassword] = useState("");
 
-    const user = JSON.parse(localStorage.getItem("user"));
+  const [alert, setAlert] = useState({ open: false, message: "", type: "success" });
 
-    useEffect(() => {
-        if (!user || user.role !== "user") {
-            alert("You must log in as a user to make a reservation.");
-            navigate("/signin");
-            return;
-        }
+  const user = JSON.parse(localStorage.getItem("user"));
 
-        axios
-            .get(`http://localhost:8888/cars/${id}`)
-            .then((res) => setCar(res.data))
-            .catch((err) => {
-                console.error(err);
-                alert("Failed to load car details");
-                navigate("/cars");
-            });
-    }, [id, navigate]);
+  useEffect(() => {
+    if (!user || user.role !== "user") {
+      setActiveStep(0);
+    } else {
+      setActiveStep(1);
+      axios
+        .get(`http://localhost:8888/cars/${id}`)
+        .then((res) => setCar(res.data))
+        .catch((err) => {
+          console.error(err);
+          setAlert({ open: true, message: "Failed to load car details.", type: "error" });
+          navigate("/cars");
+        });
+    }
+  }, [id, navigate]);
 
-    const  handleSubmit = (e) => {
-        e.preventDefault();
+  const handleNext = () => {
+    if (activeStep === 1) {
+      if (!date_depart || !date_fin) {
+        return setAlert({ open: true, message: "Please fill both dates.", type: "warning" });
+      }
+    }
+    if (activeStep === 2) {
+      if (!accountNumber || !accountPassword) {
+        return setAlert({ open: true, message: "Bank account fields are required.", type: "warning" });
+      }
+    }
+    setActiveStep((prev) => prev + 1);
+  };
 
-        axios
-            .post("http://localhost:8888/rent", {
-                date_depart,
-                date_fin,
-                id_car: id,
-                id_user: user.id_user,
-            })
-            .then(() => {
-                alert("Reservation request sent successfully!");
-                navigate("/");
-            })
-            .catch((err) => {
-                console.error(err);
-                alert("Failed to send reservation.");
-            });
-    };
+  const handleSubmit = () => {
+    axios
+      .post("http://localhost:8888/rent", {
+        date_depart,
+        date_fin,
+        id_car: id,
+        id_user: user.id_user,
+      })
+      .then(() => {
+        setAlert({ open: true, message: "Reservation successful!", type: "success" });
+        setTimeout(() => navigate("/"), 2000);
+      })
+      .catch((err) => {
+        console.error(err);
+        setAlert({ open: true, message: "Reservation failed.", type: "error" });
+      });
+  };
 
-    if (!car) return <div className="text-center mt-5">Loading...</div>;
+  if (!car) return <Typography align="center" mt={5}>Loading...</Typography>;
 
-    return (
-        <Container className="mt-5">
-            <Row className="justify-content-center">
-                <Col md={8}>
-                    <Card className="shadow">
-                        <Row>
-                            <Col md={6}>
-                                <Card.Img
-                                    variant="top"
-                                    src={`http://localhost:8888/uploads/${car.image}`}
-                                    style={{ height: "100%", objectFit: "cover" }}
-                                />
-                            </Col>
-                            <Col md={6} className="p-4">
-                                <h3>{car.marque} - {car.modele}</h3>
-                                <p><strong>Price:</strong> {car.price} MAD/day</p>
-                                <p><strong>Fuel:</strong> {car.fuel}</p>
-                                <p><strong>Matricule:</strong> {car.matricule}</p>
+  return (
+    <Container maxWidth="md" sx={{ mt: 5 }}>
+      <Stepper activeStep={activeStep} alternativeLabel>
+        {steps.map((step, index) => (
+          <Step key={index}>
+            <StepLabel icon={step.icon}>{step.label}</StepLabel>
+          </Step>
+        ))}
+      </Stepper>
 
-                                <Form onSubmit={handleSubmit} className="mt-4">
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>Start Date</Form.Label>
-                                        <Form.Control
-                                            type="datetime-local"
-                                            value={date_depart}
-                                            onChange={(e) => setDateDepart(e.target.value)}
-                                            required
-                                        />
-                                    </Form.Group>
+      {activeStep === 0 && (
+        <Card sx={{ mt: 5, p: 4, textAlign: "center" }}>
+          <Typography variant="h5" gutterBottom>
+            You must be logged in to reserve.
+          </Typography>
+          <Button variant="contained" color="primary" onClick={() => navigate("/signin")}>
+            Go to Login
+          </Button>
+        </Card>
+      )}
 
-                                    <Form.Group className="mb-3">
-                                        <Form.Label>End Date</Form.Label>
-                                        <Form.Control
-                                            type="datetime-local"
-                                            value={date_fin}
-                                            onChange={(e) => setDateFin(e.target.value)}
-                                            required
-                                        />
-                                    </Form.Group>
+      {activeStep === 1 && (
+        <Card sx={{ mt: 5, p: 4 }}>
+          <Typography variant="h5" gutterBottom>
+            Reserve {car.marque} - {car.modele}
+          </Typography>
+          <TextField
+            label="Start Date"
+            type="datetime-local"
+            fullWidth
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+            value={date_depart}
+            onChange={(e) => setDateDepart(e.target.value)}
+          />
+          <TextField
+            label="End Date"
+            type="datetime-local"
+            fullWidth
+            margin="normal"
+            InputLabelProps={{ shrink: true }}
+            value={date_fin}
+            onChange={(e) => setDateFin(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleNext}
+            sx={{ mt: 2 }}
+            fullWidth
+          >
+            Next
+          </Button>
+        </Card>
+      )}
 
-                                    <Button type="submit" variant="primary" className="w-100">
-                                        Reserve Now
-                                    </Button>
-                                </Form>
-                            </Col>
-                        </Row>
-                    </Card>
-                </Col>
-            </Row>
-        </Container>
-    );
+      {activeStep === 2 && (
+        <Card sx={{ mt: 5, p: 4 }}>
+          <Typography variant="h5" gutterBottom>
+            Enter Bank Account (Mock)
+          </Typography>
+          <TextField
+            label="Account Number"
+            fullWidth
+            margin="normal"
+            value={accountNumber}
+            onChange={(e) => setAccountNumber(e.target.value)}
+          />
+          <TextField
+            label="Account Password"
+            type="password"
+            fullWidth
+            margin="normal"
+            value={accountPassword}
+            onChange={(e) => setAccountPassword(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleSubmit}
+            fullWidth
+            sx={{ mt: 2 }}
+            startIcon={<CheckCircleIcon />}
+          >
+            Submit Reservation
+          </Button>
+        </Card>
+      )}
+
+      <Snackbar
+        open={alert.open}
+        autoHideDuration={3000}
+        onClose={() => setAlert({ ...alert, open: false })}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setAlert({ ...alert, open: false })}
+          severity={alert.type}
+          sx={{ width: "100%", fontSize: "1rem", display: "flex", alignItems: "center" }}
+          iconMapping={{
+            success: <CheckCircleIcon fontSize="inherit" />,
+            error: <CreditCardIcon fontSize="inherit" />,
+            warning: <CalendarMonthIcon fontSize="inherit" />,
+          }}
+        >
+          {alert.message}
+        </Alert>
+      </Snackbar>
+    </Container>
+  );
 }
