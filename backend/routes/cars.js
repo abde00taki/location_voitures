@@ -17,7 +17,13 @@ const upload = multer({ storage });
 
 // GET all cars
 router.get('/', (req, res) => {
-  db.query('SELECT * FROM car', (err, results) => {
+  db.query('SELECT * FROM car ORDER BY star DESC', (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+router.get('/best', (req, res) => {
+  db.query('SELECT * FROM car WHERE star > 3.5', (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(results);
   });

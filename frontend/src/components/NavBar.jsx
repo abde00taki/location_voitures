@@ -67,9 +67,9 @@ const NavBar = ({ show }) => {
           style={{ transition: "all 0.3s ease-in-out" }}
         >
           <Container>
-            <IoCarSportOutline className="fs-1" />
+            <IoCarSportOutline color="rgba(251, 138, 1, 1)" className="fs-1" />
             <Navbar.Brand href="#" className="d-flex align-items-center">
-              <span className={linkClassName}>LOCATION</span>
+              <span style={{textShadow: "0 0 3px black"}} className={linkClassName}>RENTCARS</span>
             </Navbar.Brand>
 
             <Navbar.Toggle aria-controls="navbar-nav" />
@@ -77,21 +77,22 @@ const NavBar = ({ show }) => {
               <Nav className="mx-auto gap-3">
                 <NavLink
                   to={"/"}
-                  className={`d-flex align-items-center gap-1 ${linkClassName}`}
+                  className={`d-flex align-items-center gap-1 text-decoration-none mx-4 ${linkClassName}`}
                 >
                   <House /> Home
                 </NavLink>
                 <NavLink
                   to={"/cars"}
-                  className={`d-flex align-items-center gap-1 ${linkClassName}`}
+                  className={`d-flex align-items-center gap-1 text-decoration-none mx-4 ${linkClassName}`}
                 >
-                  <Tools /> Cars
+                   cars
                 </NavLink>
+                
                 <Nav.Link
                   href="#contact"
-                  className={`d-flex align-items-center gap-1 ${linkClassName}`}
+                  className={`d-flex align-items-center gap-1 mx-4 ${linkClassName}`}
                 >
-                  <Phone /> Contact
+                   Contact
                 </Nav.Link>
               </Nav>
 
@@ -128,23 +129,23 @@ const NavBar = ({ show }) => {
 
                   {user?.role !== "admin" && (
                     <button
-                      className="btn btn-outline-secondary mx-2"
+                      className="btn  mx-2"
                       type="button"
                       data-bs-toggle="offcanvas"
                       data-bs-target="#offcanvasRight"
                       aria-controls="offcanvasRight"
                       style={{ border: "none" }}
                     >
-                      <CgProfile size={30} />
+                      <CgProfile color="rgba(251, 138, 1, 1)" size={30} />
                     </button>
                   )}
 
                   <button
                     onClick={handleLogout}
-                    className="btn btn-outline-danger mx-2"
+                    className="btn  mx-2"
                     style={{ border: "none" }}
                   >
-                    <IoIosLogOut size={30} />
+                    <IoIosLogOut color="red" size={30} />
                   </button>
                 </>
               )}

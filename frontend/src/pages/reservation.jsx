@@ -8,7 +8,6 @@ import {
   Typography,
   Alert,
   Snackbar,
-  Box,
   Stepper,
   Step,
   StepLabel,
@@ -29,31 +28,30 @@ export default function Reservation() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(1); // Skip login check step
   const [car, setCar] = useState(null);
   const [date_depart, setDateDepart] = useState("");
   const [date_fin, setDateFin] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
   const [accountPassword, setAccountPassword] = useState("");
-
   const [alert, setAlert] = useState({ open: false, message: "", type: "success" });
 
   const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     if (!user || user.role !== "user") {
-      setActiveStep(0);
-    } else {
-      setActiveStep(1);
-      axios
-        .get(`http://localhost:8888/cars/${id}`)
-        .then((res) => setCar(res.data))
-        .catch((err) => {
-          console.error(err);
-          setAlert({ open: true, message: "Failed to load car details.", type: "error" });
-          navigate("/cars");
-        });
+      navigate("/signin");
+      return;
     }
+
+    axios
+      .get(`http://localhost:8888/cars/${id}`)
+      .then((res) => setCar(res.data))
+      .catch((err) => {
+        console.error(err);
+        setAlert({ open: true, message: "Failed to load car details.", type: "error" });
+        navigate("/cars");
+      });
   }, [id, navigate]);
 
   const handleNext = () => {
@@ -99,17 +97,6 @@ export default function Reservation() {
           </Step>
         ))}
       </Stepper>
-
-      {activeStep === 0 && (
-        <Card sx={{ mt: 5, p: 4, textAlign: "center" }}>
-          <Typography variant="h5" gutterBottom>
-            You must be logged in to reserve.
-          </Typography>
-          <Button variant="contained" color="primary" onClick={() => navigate("/signin")}>
-            Go to Login
-          </Button>
-        </Card>
-      )}
 
       {activeStep === 1 && (
         <Card sx={{ mt: 5, p: 4 }}>

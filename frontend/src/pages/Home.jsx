@@ -21,7 +21,7 @@ export default function Home() {
   const [cars, setCars] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8888/cars')
+    axios.get('http://localhost:8888/cars/best')
       .then(response => {
         setCars(response.data);
       })
@@ -37,8 +37,27 @@ export default function Home() {
           <NavBar show={true} />
         </div>
         <Video />
-        <div className="container w-100">
-          <h3 className="text-center">welcome</h3>
+        <div className="container w-100 mt-4">
+          <div className="d-flex justify-content-center">
+            <motion.h3
+              initial={{ y: -100, opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: false, amount: 0.5 }}
+              transition={{ duration: 1 }}
+              style={{
+                color: "white",
+                fontSize: "2rem",
+                margin: 0,
+                backgroundColor: "rgba(251, 138, 1, 1)",
+                zIndex: "-1"
+              }}
+              className="text-center text-light mb-0 w-25"
+            >
+              welcome
+            </motion.h3>
+
+          </div>
+          <hr style={{ padding: "0", margin: "0" }} />
 
           {cars.length > 0 && (
             <Swiper
@@ -85,6 +104,8 @@ export default function Home() {
                     fuel={car.fuel}
                     image={car.image}
                     id={car.id_car}
+                    star={car.star}
+                    id_car={car.id_car}
                   />
                 </SwiperSlide>
               ))}
@@ -132,7 +153,7 @@ export default function Home() {
 
         </div>
         <div className="w-100 d-flex justify-content-center bg-dark align-items-center " style={{ height: "50vh", backgroundImage: "url(carhome.jpg)", backgroundPosition: "center", backgroundSize: "cover", backgroundAttachment: "fixed" }}></div>
-        
+
       </div>
       <Footer />
 

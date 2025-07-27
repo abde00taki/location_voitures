@@ -2,7 +2,7 @@
   .modal-body .col-md-6 img {
     height: 200px; /* تعيين ارتفاع معين للصورة في الشاشات الصغيرة */
     object-fit: cover;
-   
+  
    
   }
 }

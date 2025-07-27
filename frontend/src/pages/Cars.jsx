@@ -82,6 +82,8 @@ export default function Cars() {
                                     price={car.price}
                                     fuel={car.fuel}
                                     image={car.image}
+                                    star={car.star}
+                                    id_car={car.id_car}
                                 />
                             </div>
                         ))

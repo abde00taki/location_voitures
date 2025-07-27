@@ -182,8 +182,8 @@ router.put('/:id', (req, res) => {
       // 🟢 Step 2: Insert notification
       const message =
         status === 'accepted'
-          ? 'Your reservation has been accepted'
-          : 'Your reservation has been rejected';
+          ? 'Your reservation has been accepted ✅'
+          : 'Your reservation has been rejected ';
 
       db.query(
         `INSERT INTO notifications (id_user, message) VALUES (?, ?)`,
