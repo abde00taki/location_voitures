@@ -9,6 +9,7 @@ import Reserve from "./Reserv";
 import Accepted from "./Accept";
 import Rejected from "./Rejected";
 import { Autocomplete, TextField, Alert } from "@mui/material";
+import Charts from "./Charts";
 
 
 export default function Admin() {
@@ -101,6 +102,7 @@ export default function Admin() {
         formData.append("price", price);
         formData.append("fuel", fuel);
         formData.append("image", image);
+        
 
         axios
             .post("http://localhost:8888/cars", formData)
@@ -130,7 +132,7 @@ export default function Admin() {
             />
             <br /><br />
 
-            <div className="row">
+            <div className="row w-100">
                 <div className="sidebar col-md-3 d-none d-lg-flex bg-dark " style={{ zIndex: 1, backgroundAttachment: "fixed" }}>
                     <div className="w-100 vh-100 position-fixed">
                         <br /><br /><br />
@@ -145,7 +147,7 @@ export default function Admin() {
                     </div>
                 </div>
 
-                <div className="col-md-9 bg-dark vh-100 "
+                <div className="col-md-9 example  vh-100 "
                     style={{
                         backgroundImage: "url(/admin.png)",
                         backgroundAttachment: "fixed",
@@ -154,10 +156,13 @@ export default function Admin() {
                         backgroundSize: "cover",
                         zIndex: 2,
                         position: "relative",
+                        overflowY: "scroll",
+                        flex: 1,
                     }}
                 >
                     <div className={chenge === "home" ? "" : "d-none"}>
-                        <HelloAdmin />
+                       
+                        <Charts />
                         
                     </div>
 

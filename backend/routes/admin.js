@@ -9,7 +9,7 @@ router.get("/stats", (req, res) => {
   const sql = `
     SELECT 
       (SELECT COUNT(*) FROM users) AS users,
-      (SELECT COUNT(*) FROM car) AS car,
+      (SELECT COUNT(*) FROM car) AS cars,
       (SELECT COUNT(*) FROM rent WHERE status='pending') AS pending,
       (SELECT COUNT(*) FROM rent WHERE status='accepted') AS accepted,
       (SELECT COUNT(*) FROM rent WHERE status='rejected') AS rejected,

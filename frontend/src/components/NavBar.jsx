@@ -69,7 +69,7 @@ const NavBar = ({ show }) => {
           <Container>
             <IoCarSportOutline color="rgba(251, 138, 1, 1)" className="fs-1" />
             <Navbar.Brand href="#" className="d-flex align-items-center">
-              <span style={{textShadow: "0 0 3px black"}} className={linkClassName}>RENTCARS</span>
+              <span style={{textShadow: "0 0 3px black"}} className={linkClassName}>TAKICARS</span>
             </Navbar.Brand>
 
             <Navbar.Toggle aria-controls="navbar-nav" />

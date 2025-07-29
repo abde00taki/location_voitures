@@ -17,6 +17,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import axios from "axios";
+import NavBar from "../components/NavBar";
 
 const steps = [
   { label: "Check Login", icon: <AccountCircleIcon /> },
@@ -89,102 +90,173 @@ export default function Reservation() {
   if (!car) return <Typography align="center" mt={5}>Loading...</Typography>;
 
   return (
-    <Container maxWidth="md" sx={{ mt: 5 }}>
-      <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((step, index) => (
-          <Step key={index}>
-            <StepLabel icon={step.icon}>{step.label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-
-      {activeStep === 1 && (
-        <Card sx={{ mt: 5, p: 4 }}>
-          <Typography variant="h5" gutterBottom>
-            Reserve {car.marque} - {car.modele}
-          </Typography>
-          <TextField
-            label="Start Date"
-            type="datetime-local"
-            fullWidth
-            margin="normal"
-            InputLabelProps={{ shrink: true }}
-            value={date_depart}
-            onChange={(e) => setDateDepart(e.target.value)}
-          />
-          <TextField
-            label="End Date"
-            type="datetime-local"
-            fullWidth
-            margin="normal"
-            InputLabelProps={{ shrink: true }}
-            value={date_fin}
-            onChange={(e) => setDateFin(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleNext}
-            sx={{ mt: 2 }}
-            fullWidth
-          >
-            Next
-          </Button>
-        </Card>
-      )}
-
-      {activeStep === 2 && (
-        <Card sx={{ mt: 5, p: 4 }}>
-          <Typography variant="h5" gutterBottom>
-            Enter Bank Account (Mock)
-          </Typography>
-          <TextField
-            label="Account Number"
-            fullWidth
-            margin="normal"
-            value={accountNumber}
-            onChange={(e) => setAccountNumber(e.target.value)}
-          />
-          <TextField
-            label="Account Password"
-            type="password"
-            fullWidth
-            margin="normal"
-            value={accountPassword}
-            onChange={(e) => setAccountPassword(e.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="success"
-            onClick={handleSubmit}
-            fullWidth
-            sx={{ mt: 2 }}
-            startIcon={<CheckCircleIcon />}
-          >
-            Submit Reservation
-          </Button>
-        </Card>
-      )}
-
-      <Snackbar
-        open={alert.open}
-        autoHideDuration={3000}
-        onClose={() => setAlert({ ...alert, open: false })}
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+    <>
+      <div className="d-none d-lg-flex">
+        <NavBar show={true} />
+      </div>
+      <Container
+        className="d-flex justify-content-center align-items-center vh-100 flex-column"
+        maxWidth="md"
+        sx={{ mt: 5 }}
       >
-        <Alert
+        <Stepper className="w-100" activeStep={activeStep} alternativeLabel>
+          {steps.map((step, index) => (
+            <Step key={index}>
+              <StepLabel
+                icon={step.icon}
+                sx={{
+                  "& .MuiStepIcon-root.Mui-completed": { color: "green" },
+                  "& .MuiStepIcon-root.Mui-active": { color: "rgba(251,138,1,1)" },
+                }}
+              >
+                {step.label}
+              </StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+
+        {/* Step 2 with Car Info */}
+        {activeStep === 1 && (
+          <Card
+            sx={{
+              mt: 2,
+              p: 4,
+              width: "100%",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+              borderRadius: 3,
+            }}
+          >
+            {/* 🔹 Car Info Card */}
+            <div
+              style={{
+                display: "flex",
+                gap: "20px",
+                alignItems: "center",
+                marginBottom: "20px",
+                background: "#f9f9f9",
+                padding: "15px",
+                borderRadius: "10px",
+                boxShadow: "0 3px 10px rgba(0,0,0,0.1)",
+              }}
+            >
+              <img
+                src={`http://localhost:8888/uploads/${car.image}`}
+                alt={car.marque}
+                style={{
+                  width: "120px",
+                  height: "80px",
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                }}
+              />
+              <div style={{ flex: 1 }}>
+                <Typography variant="h6" color="rgba(251,138,1,1)">
+                  {car.marque} - {car.modele}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Matricule: <strong>{car.matricule}</strong>
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Price per day: <strong>{car.price} DH</strong>
+                </Typography>
+              </div>
+            </div>
+
+            {/* 🔹 Date Form in center */}
+            <div style={{ textAlign: "center" }}>
+              <TextField
+                label="Start Date"
+                type="datetime-local"
+                fullWidth
+                margin="normal"
+                InputLabelProps={{ shrink: true }}
+                value={date_depart}
+                onChange={(e) => setDateDepart(e.target.value)}
+              />
+              <TextField
+                label="End Date"
+                type="datetime-local"
+                fullWidth
+                margin="normal"
+                InputLabelProps={{ shrink: true }}
+                value={date_fin}
+                onChange={(e) => setDateFin(e.target.value)}
+              />
+              <Button
+                variant="contained"
+                onClick={handleNext}
+                fullWidth
+                sx={{
+                  mt: 2,
+                  backgroundColor: "rgba(251,138,1,1)",
+                  "&:hover": { backgroundColor: "rgb(255,120,0)" },
+                }}
+              >
+                Next
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {/* Step 3 */}
+        {activeStep === 2 && (
+          <Card sx={{ mt: 5, p: 4 }}>
+            <Typography variant="h5" gutterBottom>
+              Enter Bank Account (Mock)
+            </Typography>
+            <TextField
+              label="Account Number"
+              fullWidth
+              margin="normal"
+              value={accountNumber}
+              onChange={(e) => setAccountNumber(e.target.value)}
+            />
+            <TextField
+              label="Account Password"
+              type="password"
+              fullWidth
+              margin="normal"
+              value={accountPassword}
+              onChange={(e) => setAccountPassword(e.target.value)}
+            />
+            <Button
+              variant="contained"
+              color="success"
+              onClick={handleSubmit}
+              fullWidth
+              sx={{ mt: 2 }}
+              startIcon={<CheckCircleIcon />}
+            >
+              Submit Reservation
+            </Button>
+          </Card>
+        )}
+
+        <Snackbar
+          open={alert.open}
+          autoHideDuration={3000}
           onClose={() => setAlert({ ...alert, open: false })}
-          severity={alert.type}
-          sx={{ width: "100%", fontSize: "1rem", display: "flex", alignItems: "center" }}
-          iconMapping={{
-            success: <CheckCircleIcon fontSize="inherit" />,
-            error: <CreditCardIcon fontSize="inherit" />,
-            warning: <CalendarMonthIcon fontSize="inherit" />,
-          }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
-          {alert.message}
-        </Alert>
-      </Snackbar>
-    </Container>
+          <Alert
+            onClose={() => setAlert({ ...alert, open: false })}
+            severity={alert.type}
+            sx={{
+              width: "100%",
+              fontSize: "1rem",
+              display: "flex",
+              alignItems: "center",
+            }}
+            iconMapping={{
+              success: <CheckCircleIcon fontSize="inherit" />,
+              error: <CreditCardIcon fontSize="inherit" />,
+              warning: <CalendarMonthIcon fontSize="inherit" />,
+            }}
+          >
+            {alert.message}
+          </Alert>
+        </Snackbar>
+      </Container>
+    </>
   );
 }

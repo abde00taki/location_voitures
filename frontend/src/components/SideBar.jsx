@@ -18,7 +18,7 @@ const Sidebar = () => {
         style={{zIndex: "2000"}}
       >
         <List size={24} />
-        LOCATION <IoCarSportOutline className="fs-3" />
+        TAKICARS <IoCarSportOutline className="fs-3" />
       </Button>
 
       {/* Sidebar */}
