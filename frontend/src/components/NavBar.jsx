@@ -39,7 +39,7 @@ const NavBar = ({ show }) => {
   }, [lastScrollY]);
 
   const navbarClasses = `
-    ${navbarStyle === "transparent" ? "bg-transparent text-light" : ""}
+    ${navbarStyle === "transparent" ? "bg-dark text-light" : ""}
     ${navbarStyle === "white" ? "bg-white shadow-sm text-dark" : ""}
     ${navbarStyle === "hidden" ? "d-none" : ""}
     fixed-top
@@ -98,8 +98,8 @@ const NavBar = ({ show }) => {
 
               {!user && (
                 <NavLink
-                  to={"/contact"}
-                  className="btn btn-outline-success mx-3 d-flex align-items-center gap-1"
+                  to={"/signup"}
+                className={`btn btn-outline-light mx-3 d-flex align-items-center gap-1 ${linkClassName}`}
                 >
                   <BoxArrowInRight /> Sign Up
                 </NavLink>
@@ -109,7 +109,8 @@ const NavBar = ({ show }) => {
                 <NavLink
                   to={"/signin"}
                   variant={buttonVariant}
-                  className="btn btn-outline-warning d-flex align-items-center gap-1"
+                  className="btn  d-flex align-items-center gap-1"
+                  style={{border: "1px solid rgba(251, 138, 1, 1)", color: "rgba(251, 138, 1, 1)"}}
                 >
                   <BoxArrowInRight /> Sign In
                 </NavLink>
@@ -142,10 +143,10 @@ const NavBar = ({ show }) => {
 
                   <button
                     onClick={handleLogout}
-                    className="btn  mx-2"
+                    className={`btn  mx-2 ${linkClassName}`}
                     style={{ border: "none" }}
                   >
-                    <IoIosLogOut color="red" size={30} />
+                    <IoIosLogOut color="" size={30} />
                   </button>
                 </>
               )}

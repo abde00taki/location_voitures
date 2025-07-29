@@ -51,13 +51,13 @@ export default function Rejected() {
         <>
             {/* <PrimarySearchAppBar /> */}
             <Container className="py-4">
-                <h2 className="mb-4">Reservations</h2>
+                <h2 className="mb-4">Reservations Rejected</h2>
                 <Row>
                     {rents.map((rent) => (
                         <Col md={4} key={rent.id_rent} className="mb-4">
 
-                            <Card style={{ backgroundColor: "rgba(231, 37, 37, 0.18)" }}>
-                                <Card.Body>
+                            <Card style={{ backgroundColor: "rgba(228, 113, 113, 1)" }}>
+                                <Card.Body className="text-light">
                                     <h5 className="d-flex align-items-center gap-2">
                                         <FaUser /> User Info
                                     </h5>

@@ -55,8 +55,8 @@ export default function Accepted() {
                     {rents.map((rent) => (
                         <Col md={4} key={rent.id_rent} className="mb-4">
 
-                            <Card style={{ backgroundColor: "rgba(76, 231, 37, 0.05)" }}>
-                                <Card.Body>
+                            <Card style={{ backgroundColor: "rgba(140, 245, 114, 1)" }}>
+                                <Card.Body >
                                     <h5 className="d-flex align-items-center gap-2">
                                         <FaUser /> User Info
                                     </h5>

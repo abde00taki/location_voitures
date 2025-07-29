@@ -44,6 +44,24 @@ router.post('/', async (req, res) => {
     }
   );
 });
+// POST user  comonter
+router.post('/coment', async (req, res) => {
+  const { message, } = req.body;
+
+  if (!message) {
+    return res.status(400).send('invalid ipouts')
+  }
+
+
+  db.query(
+    'INSERT INTO users ( message) VALUES (?)',
+    [message],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ id: result.insertId, message });
+    }
+  );
+});
 
 
 // POST user  Sign In
@@ -74,6 +92,27 @@ router.post("/login", (req, res) => {
 });
 
 
+
+// تحديث message و star
+router.put("/coment/:id", (req, res) => {
+  const id_user = req.params.id;
+  const { message, star } = req.body;
+
+  const sql = "UPDATE users SET message = ?, star = ? WHERE id_user = ?";
+  const values = [message, star, id_user];
+
+  db.query(sql, values, (err, result) => {
+    if (err) {
+      console.error("Error during UPDATE:", err);
+      return res.status(500).json({ error: "Server error" });
+    }
+
+    res.json({ message: "Message and rating updated successfully!" });
+  });
+});
+
+
+
 // DELETE user
 router.delete('/:id', (req, res) => {
   const id = req.params.id;
@@ -89,7 +128,7 @@ router.delete('/:id', (req, res) => {
 router.put("/:id", upload.single("image"), (req, res) => {
   const id = req.params.id;
 
-  const { name, lastname,  currentPassword, newPassword } = req.body;
+  const { name, lastname, currentPassword, newPassword } = req.body;
 
   const image = req.file?.filename;
 

@@ -22,6 +22,7 @@ router.get('/', (req, res) => {
     res.json(results);
   });
 });
+// hada li kaykon fi sef7a dyal home ou kaytle3 lwel 
 router.get('/best', (req, res) => {
   db.query('SELECT * FROM car WHERE star > 3.5', (err, results) => {
     if (err) return res.status(500).json({ error: err.message });

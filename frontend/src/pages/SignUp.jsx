@@ -1,10 +1,12 @@
-import axios from "axios";
 import { useState } from "react";
+import axios from "axios";
 import { motion } from "framer-motion";
 import NavBar from "../components/NavBar";
+import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import PageWrapper from "../components/PageWrapper";
 
 export default function SignUp() {
-
     const [name, setName] = useState("");
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
@@ -17,21 +19,14 @@ export default function SignUp() {
         password: null,
     });
 
-    const validateName = (value) => {
-        return value.trim() === "" ? "You must enter your name" : null;
-    };
-
-    const validateLastname = (value) => {
-        return value.trim() === "" ? "You must enter your lastname" : null;
-    };
-
+    const validateName = (value) => value.trim() === "" ? "You must enter your name" : null;
+    const validateLastname = (value) => value.trim() === "" ? "You must enter your lastname" : null;
     const validateEmail = (value) => {
         const regex = /\S+@\S+\.\S+/;
         if (value.trim() === "") return "You must enter your email";
         if (!regex.test(value)) return "Invalid email format";
         return null;
     };
-
     const validatePassword = (value) => {
         const regexChar = /[^A-Za-z0-9]/;
         const regexDigits = /.*\d.*\d.*\d.*\d/;
@@ -42,19 +37,17 @@ export default function SignUp() {
     };
 
     const handleChange = (field, value) => {
-        if (field === "name") {
-            setName(value);
-            setErrors((prev) => ({ ...prev, name: validateName(value) }));
-        } else if (field === "lastname") {
-            setLastname(value);
-            setErrors((prev) => ({ ...prev, lastname: validateLastname(value) }));
-        } else if (field === "email") {
-            setEmail(value);
-            setErrors((prev) => ({ ...prev, email: validateEmail(value) }));
-        } else if (field === "password") {
-            setPassword(value);
-            setErrors((prev) => ({ ...prev, password: validatePassword(value) }));
-        }
+        const validators = {
+            name: validateName,
+            lastname: validateLastname,
+            email: validateEmail,
+            password: validatePassword
+        };
+        if (field === "name") setName(value);
+        if (field === "lastname") setLastname(value);
+        if (field === "email") setEmail(value);
+        if (field === "password") setPassword(value);
+        setErrors((prev) => ({ ...prev, [field]: validators[field](value) }));
     };
 
     const handleSubmitUser = async (e) => {
@@ -66,13 +59,9 @@ export default function SignUp() {
             email: validateEmail(email),
             password: validatePassword(password),
         };
-
         setErrors(allErrors);
 
-        if (Object.values(allErrors).some((err) => err !== null)) {
-            console.log("Invalid form");
-            return;
-        }
+        if (Object.values(allErrors).some((err) => err !== null)) return;
 
         try {
             const res = await axios.post("http://localhost:8888/users", {
@@ -82,102 +71,103 @@ export default function SignUp() {
                 password,
             });
             alert("Utilisateur ajouté : " + res.data.name);
-            setName("")
-            setLastname("")
-            setEmail("")
-            setPassword("")
+            setName(""); setLastname(""); setEmail(""); setPassword("");
         } catch (error) {
             console.error("Erreur POST:", error);
         }
     };
 
-    const getHelperColor = (error) => (error ? "text-danger" : "text-success");
-
-
     return (
         <>
-            <div className="d-none d-lg-flex">
+            <PageWrapper >
                 <NavBar show={true} />
-            </div>
-            <div className="bg-dark">
-                <br />
-                <br />
-            </div>
-            <div className="d-flex justify-content-center align-items-center vh-100 bg-dark">
-                <div className="w-100" style={{ margin: "70px" }}>
-                    <div className="row w-100 bg-primary " style={{ borderRadius: "20px", padding: "30px" }}>
-                        <div className="col-md-6 " style={{
-                            backgroundColor: "rgba(0, 0, 255, 0.436)",
-                            backgroundImage: "url(loginpage.png)",
-                            backgroundPosition: "center",
-                            backgroundSize: "cover"
-                        }}  >
-                        </div>
-                        <div className="col-md-6">
-                            <motion.div
-                                initial={{ x: 100, opacity: 0 }}
-                                animate={{ x: 0, opacity: 1 }}
-                                transition={{ duration: 1 }}
+                <Box sx={{
+                    backgroundColor: "", minHeight: "100vh", py: 6,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center"
+                }}>
+                    <Container maxWidth="md">
+                        <Grid container spacing={4} alignItems="center" sx={{ backgroundColor: "#fff", borderRadius: 4, boxShadow: 3 }}>
 
-                            >
-                                <div style={{ borderRadius: "15px", boxShadow: '0 0 3px black', backgroundColor: "white", padding: "10px" }} className="w-100">
-                                    <form onSubmit={handleSubmitUser} className="p-4">
-                                        <label>add your name</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
+
+                            <Grid item xs={12} md={6}>
+                                <motion.div
+                                    initial={{ x: 80, opacity: 0 }}
+                                    animate={{ x: 0, opacity: 1 }}
+                                    transition={{ duration: 1 }}
+                                >
+                                    <Box component="form" onSubmit={handleSubmitUser} noValidate sx={{ p: 2 }}>
+                                        <Typography variant="h5" sx={{ mb: 2, fontWeight: "bold", color: "rgba(251, 138, 1, 1)" }}>
+                                            Create Your Account
+                                        </Typography>
+
+                                        <TextField
+                                            fullWidth
+                                            label="First Name"
                                             value={name}
                                             onChange={(e) => handleChange("name", e.target.value)}
+                                            error={!!errors.name}
+                                            helperText={errors.name || ""}
+                                            margin="normal"
+                                            InputProps={{ startAdornment: <FaUser style={{ marginRight: 8 }} /> }}
                                         />
-                                        <p className={getHelperColor(errors.name)}>
-                                            {errors.name ? errors.name : "Good 👍"}
-                                        </p>
 
-                                        <label>add your lastname</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
+                                        <TextField
+                                            fullWidth
+                                            label="Last Name"
                                             value={lastname}
                                             onChange={(e) => handleChange("lastname", e.target.value)}
+                                            error={!!errors.lastname}
+                                            helperText={errors.lastname || ""}
+                                            margin="normal"
+                                            InputProps={{ startAdornment: <FaUser style={{ marginRight: 8 }} /> }}
                                         />
-                                        <p className={getHelperColor(errors.lastname)}>
-                                            {errors.lastname ? errors.lastname : "Good 👍"}
-                                        </p>
 
-                                        <label>add your email</label>
-                                        <input
+                                        <TextField
+                                            fullWidth
+                                            label="Email"
                                             type="email"
-                                            className="form-control"
                                             value={email}
                                             onChange={(e) => handleChange("email", e.target.value)}
+                                            error={!!errors.email}
+                                            helperText={errors.email || ""}
+                                            margin="normal"
+                                            InputProps={{ startAdornment: <FaEnvelope style={{ marginRight: 8 }} /> }}
                                         />
-                                        <p className={getHelperColor(errors.email)}>
-                                            {errors.email ? errors.email : "Good 👍"}
-                                        </p>
 
-                                        <label>add your password</label>
-                                        <input
+                                        <TextField
+                                            fullWidth
+                                            label="Password"
                                             type="password"
-                                            className="form-control"
                                             value={password}
                                             onChange={(e) => handleChange("password", e.target.value)}
+                                            error={!!errors.password}
+                                            helperText={errors.password || ""}
+                                            margin="normal"
+                                            InputProps={{ startAdornment: <FaLock style={{ marginRight: 8 }} /> }}
                                         />
-                                        <p className={getHelperColor(errors.password)}>
-                                            {errors.password ? errors.password : "Good 👍"}
-                                        </p>
 
-                                        <button className="btn btn-primary mt-3" type="submit">
-                                            Login
-                                        </button>
-                                    </form>
-                                </div>
-                            </motion.div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+                                        <Button
+                                            type="submit"
+                                            fullWidth
+                                            variant="contained"
+                                            sx={{
+                                                mt: 3,
+                                                backgroundColor: "rgba(251, 138, 1, 1)",
+                                                "&:hover": { backgroundColor: "rgba(251, 138, 1, 0.9)" },
+                                                fontWeight: "bold"
+                                            }}
+                                        >
+                                            Sign Up
+                                        </Button>
+                                    </Box>
+                                </motion.div>
+                            </Grid>
+                        </Grid>
+                    </Container>
+                </Box>
+            </PageWrapper>
         </>
-
-    )
+    );
 }

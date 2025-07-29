@@ -2,7 +2,7 @@
   .modal-body .col-md-6 img {
     height: 200px; /* تعيين ارتفاع معين للصورة في الشاشات الصغيرة */
     object-fit: cover;
-  
+
    
   }
 }
@@ -14,4 +14,14 @@
 .btnHome:hover {
   color: aqua;
  
+ 
 }
+
+/* hada dyal card cars  */
+
+.custom-card:hover {
+  
+  transform: translateY(-5px);
+  box-shadow: 0 6px 24px rgba(251, 138, 1, 0.3);
+}
+

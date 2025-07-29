@@ -107,14 +107,14 @@ export default function Reserve() {
                                                 onClick={() => handleUpdateStatus(rent, "accepted")}
                                                 className="d-flex align-items-center gap-1"
                                             >
-                                                <FaCheck /> Accept
+                                                <FaCheck /> 
                                             </Button>
                                             <Button
                                                 variant="danger"
                                                 onClick={() => handleUpdateStatus(rent, "rejected")}
                                                 className="d-flex align-items-center gap-1"
                                             >
-                                                <FaTimes /> Reject
+                                                <FaTimes />
                                             </Button>
                                         </div>
                                     )}

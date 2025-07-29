@@ -5,6 +5,7 @@ import Video2 from "../components/Video2";
 import CardCars from "../components/CardCars";
 import { Autocomplete, TextField, Alert } from "@mui/material";
 import Footer from "../components/Footer";
+import PageWrapper from "../components/PageWrapper";
 
 export default function Cars() {
     const [cars, setCars] = useState([]);
@@ -43,58 +44,60 @@ export default function Cars() {
 
     return (
         <>
-            <div className="d-none d-lg-flex">
-                <NavBar show={true} />
-            </div>
-            <Video2 />
+            <PageWrapper >
+                <div className="d-none d-lg-flex">
+                    <NavBar show={true} />
+                </div>
+                <Video2 />
 
-            <div className="container py-3">
-                {/* 🔷 Search bar */}
-                <div className="row mb-3">
-                    <div className="col-md-6 offset-md-3">
-                        <Autocomplete
-                            freeSolo
-                            options={marques}
-                            inputValue={search}
-                            onInputChange={handleSearchChange}
-                            renderInput={(params) => (
-                                <TextField
-                                    {...params}
-                                    label="searsh by marque"
-                                    variant="outlined"
-                                    fullWidth
-                                />
-                            )}
-                        />
+                <div className="container py-3">
+                    {/* 🔷 Search bar */}
+                    <div className="row mb-3">
+                        <div className="col-md-6 offset-md-3">
+                            <Autocomplete
+                                freeSolo
+                                options={marques}
+                                inputValue={search}
+                                onInputChange={handleSearchChange}
+                                renderInput={(params) => (
+                                    <TextField
+                                        {...params}
+                                        label="searsh by marque"
+                                        variant="outlined"
+                                        fullWidth
+                                    />
+                                )}
+                            />
+                        </div>
+                    </div>
+
+                    {/* 🔷 Cars or message */}
+                    <div className="row">
+                        {filteredCars.length > 0 ? (
+                            filteredCars.map(car => (
+                                <div className="col-md-4 mb-3" key={car.id_car}>
+                                    <CardCars
+                                        rent="user"
+                                        marque={car.marque}
+                                        modele={car.modele}
+                                        id={car.id_car}
+                                        price={car.price}
+                                        fuel={car.fuel}
+                                        image={car.image}
+                                        star={car.star}
+                                        id_car={car.id_car}
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            <div className="col-12">
+                                <Alert severity="info">we thasent have thid cars</Alert>
+                            </div>
+                        )}
                     </div>
                 </div>
-
-                {/* 🔷 Cars or message */}
-                <div className="row">
-                    {filteredCars.length > 0 ? (
-                        filteredCars.map(car => (
-                            <div className="col-md-4 mb-3" key={car.id_car}>
-                                <CardCars
-                                    rent="user"
-                                    marque={car.marque}
-                                    modele={car.model}
-                                    id={car.id_car}
-                                    price={car.price}
-                                    fuel={car.fuel}
-                                    image={car.image}
-                                    star={car.star}
-                                    id_car={car.id_car}
-                                />
-                            </div>
-                        ))
-                    ) : (
-                        <div className="col-12">
-                            <Alert severity="info">we thasent have thid cars</Alert>
-                        </div>
-                    )}
-                </div>
-            </div>
-            <Footer />
+                <Footer />
+            </PageWrapper>
         </>
     );
 }

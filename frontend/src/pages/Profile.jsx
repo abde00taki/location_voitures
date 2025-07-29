@@ -3,6 +3,7 @@ import axios from "axios";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaBell } from "react-icons/fa";
 import { FaRegAddressCard } from "react-icons/fa";
+import { RxUpdate } from "react-icons/rx";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -173,12 +174,12 @@ export default function Profile() {
             />
           </div>
 
-          <button type="submit" className="btn btn-primary w-100 mb-2">
-            Update Profile
+          <button type="submit" className="btn  w-100 mb-2">
+           <RxUpdate size={33} color="rgba(251, 138, 1, 1)" />
           </button>
         </form>
 
-        <button onClick={handleSignOut} className="btn btn-danger w-100">
+        <button onClick={handleSignOut} className="btn btn-danger w-100 d-none">
           Sign Out
         </button>
       </div>
