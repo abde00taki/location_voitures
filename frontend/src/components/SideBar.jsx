@@ -14,7 +14,7 @@ const Sidebar = () => {
       <Button
         variant="trasform"
         onClick={toggleSidebar}
-        className="d-flex align-items-center gap-2 position-fixed text-light"
+        className="d-flex bg-dark align-items-center gap-2 position-fixed text-light mt-1 mx-1"
         style={{zIndex: "2000"}}
       >
         <List size={24} />

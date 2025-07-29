@@ -15,13 +15,32 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// GET all cars
-router.get('/', (req, res) => {
-  db.query('SELECT * FROM car ORDER BY star DESC', (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+// Get all cars with last rent status and order by star
+router.get("/", (req, res) => {
+  const sql = `
+    SELECT c.*,
+      r.status AS rent_status
+    FROM car c
+    LEFT JOIN rent r 
+      ON c.id_car = r.id_car 
+      AND r.id_rent = (
+          SELECT MAX(id_rent) 
+          FROM rent 
+          WHERE id_car = c.id_car
+      )
+    ORDER BY c.star DESC, c.id_car DESC
+  `;
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("Error fetching cars:", err);
+      return res.status(500).send("Error fetching cars");
+    }
+
     res.json(results);
   });
 });
+
 // hada li kaykon fi sef7a dyal home ou kaytle3 lwel 
 router.get('/best', (req, res) => {
   db.query('SELECT * FROM car WHERE star > 3.5', (err, results) => {
@@ -46,7 +65,7 @@ router.post('/', upload.single('image'), (req, res) => {
 
   db.query(
     'INSERT INTO car (marque, matricule, modele, price, fuel, image) VALUES ( ?, ?, ?, ?, ?, ?)',
-    [marque, matricule, modele,  price, fuel, image],
+    [marque, matricule, modele, price, fuel, image],
     (err, result) => {
       if (err) return res.status(500).json({ error: err.message });
       res.json({ id: result.insertId, marque, matricule, modele, price, fuel, image });
@@ -74,7 +93,7 @@ router.put('/:id', upload.single('image'), (req, res) => {
   db.query(query, values, (err) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({ message: 'Car updated successfully' });
-    
+
   });
 });
 

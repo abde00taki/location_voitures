@@ -86,6 +86,7 @@ export default function Cars() {
                                         image={car.image}
                                         star={car.star}
                                         id_car={car.id_car}
+                                        status={car.rent_status}
                                     />
                                 </div>
                             ))

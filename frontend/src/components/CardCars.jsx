@@ -60,6 +60,23 @@ export default function CardCars(props) {
                 {props.star} <FaStar color="rgb(251,175,1)" style={{ marginLeft: "4px" }} />
             </div>
 
+            {/* ✅ الوسم الجديد Rented إذا كانت مقبولة */}
+            {props.status === "accepted" && (
+                <div style={{
+                    position: "absolute",
+                    top: "10px",
+                    right: "10px",
+                    backgroundColor: "rgba(251, 138, 1, 1)",
+                    color: "white",
+                    padding: "4px 10px",
+                    borderRadius: "8px",
+                    fontWeight: "bold",
+                    zIndex: 2
+                }}>
+                    Rented
+                </div>
+            )}
+
             <img src={`http://localhost:8888/uploads/${props.image}`} style={{ height: "25vh", objectFit: "cover" }} className="card-img-top" alt={props.marque} />
 
             <div className="card-body">

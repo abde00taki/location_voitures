@@ -87,13 +87,14 @@ const NavBar = ({ show }) => {
                 >
                    cars
                 </NavLink>
-                
-                <Nav.Link
-                  href="#contact"
-                  className={`d-flex align-items-center gap-1 mx-4 ${linkClassName}`}
+                <NavLink
+                  to={"/seved"}
+                  className={`d-flex align-items-center gap-1 text-decoration-none mx-4 ${linkClassName}`}
                 >
-                   Contact
-                </Nav.Link>
+                   Saved
+                </NavLink>
+                
+                
               </Nav>
 
               {!user && (

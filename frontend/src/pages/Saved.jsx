@@ -3,6 +3,7 @@ import { FaHeart, FaStar, FaTrashAlt } from "react-icons/fa";
 import { MdAssignmentAdd } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
 import PageWrapper from "../components/PageWrapper";
+import NavBar from "../components/NavBar";
 
 export default function Seved() {
     const [savedCars, setSavedCars] = useState([]);
@@ -23,8 +24,11 @@ export default function Seved() {
 
     return (
         <PageWrapper >
-            <div className="container py-4">
-                <h2 className="mb-4 text-center" style={{ color: "rgba(251, 138, 1, 1)" }}>
+            <div className="d-none d-lg-flex">
+                <NavBar show={true} />
+            </div>
+            <div className="container py-4 mt-4">
+                <h2 className="mb-4 text-center mt-4" style={{ color: "rgba(251, 138, 1, 1)" }}>
                     Saved Cars
                 </h2>
                 {savedCars.length === 0 ? (

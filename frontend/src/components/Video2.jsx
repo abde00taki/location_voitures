@@ -1,9 +1,10 @@
 import { IoCarSportOutline } from "react-icons/io5";
-import {  motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { MdCarRental } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export default function Video2() {
-    
+
 
     return (
         <>
@@ -41,7 +42,7 @@ export default function Video2() {
                                     margin: 0,
                                 }}
                             >
-                                <span className="text-warning">L</span>O<span className="text-warning">C</span>A<span className="text-warning">T</span>ION <span className="text-warning">V</span>OI<span className="text-warning">T</span>UR<span className="text-warning">E</span>S
+                                <span style={{ color: "rgba(251, 138, 1, 1)" }}>RENT</span> CARS
                             </motion.h2>
                         </div>
                         <div>
@@ -50,15 +51,15 @@ export default function Video2() {
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ duration: 1 }}
                                 style={{
-                                    color: "white",
+
                                     margin: 0,
                                 }}
                             >
-                                <IoCarSportOutline className="fs-1 text-warning" />
+                                <IoCarSportOutline color="rgba(251, 138, 1, 1)" className="fs-1 mb-1 " />
                             </motion.h2>
                         </div>
                     </div>
-                    
+
 
 
                     <motion.button
@@ -68,11 +69,16 @@ export default function Video2() {
                         style={{
                             margin: 0,
                             boxShadow: "0 0 6px white",
-                            top: "40px"
+                            top: "40px",
+                            border: "1px solid rgba(251, 138, 1, 1)",
+                            color: "rgba(255, 255, 255, 1)",
+                            backgroundColor: "rgba(251, 138, 1, 1)",
+                            borderRadius: "30px",
+                            width: "200px"
                         }}
-                        className="btn btn-outline-warning "
+                        className="btn "
                     >
-                        rent car<MdCarRental />
+                        <Link className="text-decoration-none text-light" to={'/cars'} >rent car<MdCarRental /></Link>
                     </motion.button>
 
 

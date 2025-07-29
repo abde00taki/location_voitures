@@ -1,33 +1,49 @@
+// backend/routes/admin.js
 const express = require("express");
 const router = express.Router();
-const db = require("../db"); 
+const db = require("../db"); // تأكد عندك db connection
 
-// Route: GET /admin/stats
-router.get("/stats", async (req, res) => {
-  try {
-    const [users] = await db.query("SELECT COUNT(*) AS total FROM users");
-    const [cars] = await db.query("SELECT COUNT(*) AS total FROM car");
-    const [rents] = await db.query("SELECT COUNT(*) AS total FROM rent");
-    const [demandes] = await db.query("SELECT COUNT(*) AS total FROM notifications");
-    const [accepted] = await db.query(
-      "SELECT COUNT(*) AS total FROM notifications WHERE status = 'accepted'"
-    );
-    const [rejected] = await db.query(
-      "SELECT COUNT(*) AS total FROM notifications WHERE status = 'rejected'"
-    );
+// Get Admin Stats
+router.get("/stats", (req, res) => {
+  // 🔹 نجيب جميع الـ Stats + عدد الكراءات لكل يوم في آخر 7 أيام
+  const sql = `
+    SELECT 
+      (SELECT COUNT(*) FROM users) AS users,
+      (SELECT COUNT(*) FROM car) AS car,
+      (SELECT COUNT(*) FROM rent WHERE status='pending') AS pending,
+      (SELECT COUNT(*) FROM rent WHERE status='accepted') AS accepted,
+      (SELECT COUNT(*) FROM rent WHERE status='rejected') AS rejected,
+      (SELECT COUNT(*) FROM rent WHERE status='drop') AS dropped,
+      (SELECT COUNT(*) FROM rent) AS total_rent
+  `;
 
-    res.json({
-      users: users[0].total,
-      cars: cars[0].total,
-      rents: rents[0].total,
-      demandes: demandes[0].total,
-      accepted: accepted[0].total,
-      rejected: rejected[0].total,
+  db.query(sql, (err, statsResults) => {
+    if (err) {
+      console.error("Error fetching stats:", err);
+      return res.status(500).send("Error fetching stats");
+    }
+
+    // 🔹 نجيب عدد الكراءات لكل يوم في آخر 7 أيام
+    const sqlWeek = `
+      SELECT DATE(created_at) AS day, COUNT(*) AS total
+      FROM rent
+      WHERE created_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+      GROUP BY DATE(created_at)
+      ORDER BY day ASC
+    `;
+
+    db.query(sqlWeek, (err2, weekResults) => {
+      if (err2) {
+        console.error("Error fetching weekly stats:", err2);
+        return res.status(500).send("Error fetching weekly stats");
+      }
+
+      res.json({
+        ...statsResults[0],
+        weekly: weekResults
+      });
     });
-  } catch (err) {
-    console.error("Error fetching admin stats:", err);
-    res.status(500).json({ error: "Failed to fetch stats" });
-  }
+  });
 });
 
 module.exports = router;
