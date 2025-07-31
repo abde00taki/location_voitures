@@ -9,6 +9,8 @@ app.use(express.json());
 
 // Serve static uploads folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use("/uploads", express.static("uploads"));
+
 
 // Routes
 const carRoutes = require('./routes/cars');

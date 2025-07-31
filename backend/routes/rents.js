@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
+const qr = require("qrcode");
+const path = require("path");
+const fs = require("fs");
+
 
 // 🔷 GET all rents
 router.get('/', (req, res) => {
@@ -149,13 +153,40 @@ router.post('/', (req, res) => {
         return res.status(500).json({ error: 'Database error', details: err.message });
       }
 
-      res.json({
-        id_rent: result.insertId,
-        date_depart,
-        date_fin,
-        id_car,
-        id_user,
-        status: 'pending'
+      const id_rent = result.insertId;
+      const qrText = `Reservation ID: ${id_rent} | Car: ${id_car} | User: ${id_user}`;
+      const qrFilename = `qr_${id_rent}.png`;
+      const qrPath = path.join(__dirname, "../uploads", qrFilename);
+
+      // ⬇ إنشاء QR code وتخزينه كصورة
+      qr.toFile(qrPath, qrText, {}, (qrErr) => {
+        if (qrErr) {
+          console.error(qrErr);
+          return res.status(500).json({ error: "QR code generation failed" });
+        }
+
+        // ⬇ تحديث الداتابيز بالمسار ديال QR
+        const qrDbPath = `/uploads/${qrFilename}`;
+        db.query(
+          "UPDATE rent SET qr_code = ? WHERE id_rent = ?",
+          [qrDbPath, id_rent],
+          (updateErr) => {
+            if (updateErr) {
+              console.error(updateErr);
+              return res.status(500).json({ error: "Failed to save QR path" });
+            }
+
+            res.json({
+              id_rent,
+              date_depart,
+              date_fin,
+              id_car,
+              id_user,
+              status: 'pending',
+              qr_code: qrDbPath
+            });
+          }
+        );
       });
     }
   );
@@ -266,6 +297,57 @@ router.put('/:id/drop', (req, res) => {
       res.json({ message: 'Reservation dropped successfully' });
     }
   );
+});
+// ✅ Accept rent + generate QR بدون async
+router.put("/:id/accept", (req, res) => {
+  const id_rent = req.params.id;
+
+  // 1️⃣ جلب بيانات الحجز
+  const sql = `
+    SELECT r.*, c.marque, c.matricule, u.name, u.email
+    FROM rent r
+    JOIN car c ON r.id_car = c.id_car
+    JOIN users u ON r.id_user = u.id_user
+    WHERE r.id_rent = ?
+  `;
+  db.query(sql, [id_rent], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: "Error fetching rent" });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: "Rent not found" });
+    }
+
+    const rentData = results[0];
+
+    // 2️⃣ إنشاء محتوى QR
+    const qrData = {
+      Car: `${rentData.marque} - ${rentData.matricule}`,
+      "Start Date": rentData.date_depart,
+      "End Date": rentData.date_fin,
+      Client: rentData.name,
+      Email: rentData.email,
+    };
+
+    // 3️⃣ توليد QR Code Base64
+    QRCode.toDataURL(JSON.stringify(qrData), (qrErr, qrCodeImage) => {
+      if (qrErr) {
+        console.error(qrErr);
+        return res.status(500).json({ message: "QR Generation Error" });
+      }
+
+      // 4️⃣ تحديث الحالة مع QR Code
+      const updateSql = "UPDATE rent SET status='accepted', qr_code=? WHERE id_rent=?";
+      db.query(updateSql, [qrCodeImage, id_rent], (updateErr) => {
+        if (updateErr) {
+          console.error(updateErr);
+          return res.status(500).json({ message: "Error updating rent" });
+        }
+        res.json({ message: "Rent accepted successfully!", qr: qrCodeImage });
+      });
+    });
+  });
 });
 
 module.exports = router;

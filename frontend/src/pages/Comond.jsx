@@ -1,7 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { FaCheckCircle, FaTimesCircle, FaCalendarAlt, FaCar } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaTimesCircle,
+  FaCalendarAlt,
+  FaCar,
+  FaQrcode,
+  FaDownload,
+} from "react-icons/fa";
 import { MdCancel } from "react-icons/md";
 import NavBar from "../components/NavBar";
 import PageWrapper from "../components/PageWrapper";
@@ -44,7 +51,7 @@ export default function Comond() {
 
   return (
     <>
-      <PageWrapper >
+      <PageWrapper>
         <div className="d-none d-lg-flex">
           <NavBar show={true} />
         </div>
@@ -62,7 +69,9 @@ export default function Comond() {
           {/* ✅ Custom Alert */}
           {alert && (
             <div
-              className={`custom-alert ${alert.type === "success" ? "success" : "error"}`}
+              className={`custom-alert ${
+                alert.type === "success" ? "success" : "error"
+              }`}
             >
               {alert.type === "success" ? (
                 <FaCheckCircle className="icon" />
@@ -87,32 +96,65 @@ export default function Comond() {
                 }}
               >
                 <h5 className="fw-bold text-dark d-flex align-items-center gap-2">
-                  <FaCar color="rgba(251,138,1,1)" /> {rent.marque} - {rent.matricule}
+                  <FaCar color="rgba(251,138,1,1)" /> {rent.marque} -{" "}
+                  {rent.matricule}
                 </h5>
                 <p className="mb-1 text-secondary d-flex align-items-center gap-2">
                   <FaCalendarAlt color="rgba(251,138,1,1)" />
-                  <strong>Départ:</strong> {new Date(rent.date_depart).toLocaleDateString()}
+                  <strong>Départ:</strong>{" "}
+                  {new Date(rent.date_depart).toLocaleDateString()}
                 </p>
                 <p className="mb-1 text-secondary d-flex align-items-center gap-2">
                   <FaCalendarAlt color="rgba(251,138,1,1)" />
-                  <strong>Fin:</strong> {new Date(rent.date_fin).toLocaleDateString()}
+                  <strong>Fin:</strong>{" "}
+                  {new Date(rent.date_fin).toLocaleDateString()}
                 </p>
                 <p className="mb-2">
                   <strong>Status:</strong>{" "}
                   <span
-                    className={`badge bg-${rent.status === "accepted"
-                      ? "success"
-                      : rent.status === "rejected"
+                    className={`badge bg-${
+                      rent.status === "accepted"
+                        ? "success"
+                        : rent.status === "rejected"
                         ? "danger"
                         : rent.status === "drop"
-                          ? "secondary"
-                          : "warning"
-                      }`}
+                        ? "secondary"
+                        : "warning"
+                    }`}
                     style={{ fontSize: "0.9rem" }}
                   >
                     {rent.status}
                   </span>
                 </p>
+
+                {/* ✅ QR Code Display + Download */}
+                {rent.status === "accepted" && rent.qr_code && (
+                  <div className="mt-3 text-center">
+                    <h6 className="fw-bold text-success mb-2 d-flex justify-content-center align-items-center gap-2">
+                      <FaQrcode /> Your QR Code
+                    </h6>
+                    <img
+                      src={`http://localhost:8888${rent.qr_code}`}
+                      alt="QR Code"
+                      style={{
+                        width: "150px",
+                        height: "150px",
+                        border: "4px solid rgba(251,138,1,1)",
+                        borderRadius: "12px",
+                        padding: "5px",
+                        background: "white",
+                      }}
+                    />
+                    <br />
+                    <a
+                      href={rent.qr_code}
+                      download={`reservation_${rent.id_rent}.png`}
+                      className="btn btn-outline-success btn-sm mt-2 d-flex align-items-center justify-content-center gap-2"
+                    >
+                      <FaDownload /> Download QR
+                    </a>
+                  </div>
+                )}
 
                 {/* Drop Button */}
                 {rent.status === "pending" && (
@@ -136,7 +178,8 @@ export default function Comond() {
           <style>{`
         .custom-alert {
           position: fixed;
-          justify-content: "center"
+          top: 20px;
+          right: 20px;
           background: white;
           padding: 12px 20px;
           border-radius: 12px;
@@ -147,7 +190,6 @@ export default function Comond() {
           font-weight: 500;
           z-index: 999;
           animation: fadeSlide 0.5s ease;
-          height: "100%"
         }
 
         .custom-alert.success {
