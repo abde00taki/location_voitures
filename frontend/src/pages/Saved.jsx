@@ -4,6 +4,8 @@ import { MdAssignmentAdd } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
 import PageWrapper from "../components/PageWrapper";
 import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
+import Sidebar from "../components/SideBar";
 
 export default function Seved() {
     const [savedCars, setSavedCars] = useState([]);
@@ -26,6 +28,9 @@ export default function Seved() {
         <PageWrapper >
             <div className="d-none d-lg-flex">
                 <NavBar show={true} />
+            </div>
+            <div className="d-flex d-lg-none">
+                <Sidebar />
             </div>
             <div className="container py-4 mt-4">
                 <h2 className="mb-4 text-center mt-4" style={{ color: "rgba(251, 138, 1, 1)" }}>
@@ -81,6 +86,9 @@ export default function Seved() {
                         ))}
                     </div>
                 )}
+            </div>
+            <div>
+                <Footer />
             </div>
         </PageWrapper>
     );

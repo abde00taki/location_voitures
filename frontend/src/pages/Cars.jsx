@@ -6,6 +6,7 @@ import CardCars from "../components/CardCars";
 import { Autocomplete, TextField, Alert } from "@mui/material";
 import Footer from "../components/Footer";
 import PageWrapper from "../components/PageWrapper";
+import Sidebar from "../components/SideBar";
 
 export default function Cars() {
     const [cars, setCars] = useState([]);
@@ -47,6 +48,9 @@ export default function Cars() {
             <PageWrapper >
                 <div className="d-none d-lg-flex">
                     <NavBar show={true} />
+                </div>
+                <div className="d-flex d-lg-none">
+                    <Sidebar />
                 </div>
                 <Video2 />
 

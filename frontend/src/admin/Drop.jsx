@@ -50,12 +50,12 @@ export default function Drop() {
         <>
             {/* <PrimarySearchAppBar /> */}
             <Container className="py-4">
-                <h2 className="mb-4">Reservations</h2>
+                <h2 className="mb-4">Reservations droped</h2>
                 <Row>
                     {rents.map((rent) => (
                         <Col md={4} key={rent.id_rent} className="mb-4">
 
-                            <Card style={{ backgroundColor: "rgba(76, 231, 37, 0.05)" }}>
+                            <Card style={{ backgroundColor: "rgba(164, 165, 163, 1)" }}>
                                 <Card.Body>
                                     <h5 className="d-flex align-items-center gap-2">
                                         <FaUser /> User Info

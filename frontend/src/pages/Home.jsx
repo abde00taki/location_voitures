@@ -20,6 +20,9 @@ import MessageUser from "../components/MessageUser";
 import UserComments from "../components/UserComments";
 import AboutUs from "./About";
 import PageWrapper from "../components/PageWrapper";
+import { Link } from "react-router-dom";
+import { MdCarRental } from "react-icons/md";
+import Sidebar from "../components/SideBar";
 
 
 export default function Home() {
@@ -43,23 +46,27 @@ export default function Home() {
           <div className="d-none d-lg-flex">
             <NavBar show={true} />
           </div>
+          <div className="d-flex d-lg-none">
+            <Sidebar />
+          </div>
           <Video />
           <div className="container w-100 mt-4">
 
 
-            <div className="d-flex justify-content-end">
-              <h3 className=" text-center w-25" style={{ boxShadow: "0 0 8px rgba(0, 0, 0, 0.477)", borderRadius: '10px', color: "rgba(251, 138, 1, 1)" }}>best cars</h3>
+            <div className="d-flex justify-content-center">
+              <h3 className=" text-center w-25" style={{ color: "rgba(251, 138, 1, 1)" }}>Most rented</h3>
             </div>
             <div className="row">
               {/* ✅ Sidebar Card col-md-3 */}
-              <div className="col-md-4 mb-4 mt-3">
+              <div className="col-md-4">
                 <div className="p-4 bg-white  rounded-4 h-100 d-flex flex-column justify-content-between" style={{ boxShadow: "0 0 8px rgba(0, 0, 0, 0.477)" }}>
                   <div>
                     <h4 className="fw-bold mb-3 d-flex align-items-center gap-2">
-                      <span>🚗</span> Premium Car Rental
+                      Premium Car Rental
                     </h4>
                     <p className="text-muted" style={{ fontSize: "0.95rem" }}>
-                      Discover our top rented cars and enjoy a smooth ride with the best comfort and style. Our service guarantees:
+                      Experience the ultimate comfort and style with Premium Car Rental services. Renting a luxury car allows you to enjoy top-class performance, advanced features, and an unforgettable driving experience. Whether for a business trip, a special event, or simply to travel
+                       in style, premium car rentals give you the perfect combination of elegance and convenience.
                     </p>
                     <ul className="mt-3 ps-3" style={{ fontSize: "0.9rem" }}>
                       <li className="mb-2 d-flex align-items-center">
@@ -76,9 +83,17 @@ export default function Home() {
                       </li>
                     </ul>
                   </div>
-                  <Button variant="contained" color="primary" className="mt-4 w-100">
-                    Explore More
-                  </Button>
+                  <Link style={{
+
+
+
+                    border: "1px solid rgba(251, 138, 1, 1)",
+                    color: "rgba(255, 255, 255, 1)",
+                    backgroundColor: "rgba(251, 138, 1, 1)",
+                    borderRadius: "30px",
+
+                  }} className="text-decoration-none text-light text-center" to={'/cars'} >rent car<MdCarRental />
+                  </Link>
                 </div>
               </div>
 
@@ -139,7 +154,7 @@ export default function Home() {
             </div>
             {/* <hr /> */}
             {/* ========= cars 2 ========= */}
-            <h3 className="w-25 mt-4 text-center" style={{ boxShadow: "0 0 8px rgba(0, 0, 0, 0.477)", borderRadius: '10px', color: "rgba(251, 138, 1, 1)" }}>the cheapest cars</h3>
+            <h3 className=" mt-4 text-center" style={{ color: "rgba(251, 138, 1, 1)" }}>the cheapest</h3>
             <div className="row ">
               {/* ✅ Swiper Slider col-md-9 */}
               <div className="col-md-8 " style={{ borderRadius: "15px", boxShadow: "0 0 8px rgba(0, 0, 0, 0.477)" }}>
@@ -196,14 +211,15 @@ export default function Home() {
                 )}
               </div>
               {/* ✅ Sidebar Card col-md-4 */}
-              <div className="col-md-4 mb-4 mt-3">
+              <div className="col-md-4 ">
                 <div className="p-4 bg-white  rounded-4 h-100 d-flex flex-column justify-content-between" style={{ boxShadow: "0 0 8px rgba(0, 0, 0, 0.477)" }}>
                   <div>
                     <h4 className="fw-bold mb-3 d-flex align-items-center gap-2">
-                      <span>🚗</span> Premium Car Rental
+                      the cheapest Car Rental
                     </h4>
                     <p className="text-muted" style={{ fontSize: "0.95rem" }}>
-                      Discover our top rented cars and enjoy a smooth ride with the best comfort and style. Our service guarantees:
+                      Looking for the most affordable way to get around without spending too much? The cheapest car rental services allow you to enjoy the freedom of driving your own vehicle at a price that fits your budget. Whether you’re traveling for a short trip, a vacation, or business, renting a low-cost car
+                       gives you convenience, flexibility, and savings all at once.
                     </p>
                     <ul className="mt-3 ps-3" style={{ fontSize: "0.9rem" }}>
                       <li className="mb-2 d-flex align-items-center">
@@ -220,14 +236,30 @@ export default function Home() {
                       </li>
                     </ul>
                   </div>
-                  <Button variant="contained" color="primary" className="mt-4 w-100">
-                    Explore More
-                  </Button>
+                  <Link style={{
+
+                    border: "1px solid rgba(251, 138, 1, 1)",
+                    color: "rgba(255, 255, 255, 1)",
+                    backgroundColor: "rgba(251, 138, 1, 1)",
+                    borderRadius: "30px",
+
+                  }} className="text-decoration-none text-light text-center" to={'/cars'} >rent car<MdCarRental />
+                  </Link>
                 </div>
               </div>
             </div>
 
 
+          </div>
+
+
+
+
+          <div>
+            <AboutUs />
+          </div>
+          <div>
+            <ServiceFeatures />
           </div>
           {/* =================== hna message and localisation ====== */}
           <div
@@ -244,7 +276,7 @@ export default function Home() {
               <div className="row g-4 align-items-center">
                 {/* Message Section */}
                 <div className="col-12 col-md-6" >
-                  <h5 className="mb-3 text-dark">add your experions</h5>
+                  <h5 className="mb-3 text-dark">Rate your experience</h5>
                   <div className="bg-light rounded p-3" style={{ boxShadow: "0 0 20px rgba(0, 0, 0, 0.3)" }}>
                     <MessageUser />
                   </div>
@@ -268,14 +300,6 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </div>
-
-
-          <div>
-            <AboutUs />
-          </div>
-          <div>
-            <ServiceFeatures />
           </div>
           <div>
             <UserComments />

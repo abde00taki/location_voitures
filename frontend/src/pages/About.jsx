@@ -22,7 +22,7 @@ export default function AboutUs() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
             >
-                About Us
+                Brand cars
             </motion.h2>
 
             {/* Swiper Section */}
@@ -52,6 +52,15 @@ export default function AboutUs() {
                     </SwiperSlide>
                 ))}
             </Swiper>
+            <motion.h2
+                className="text-center mb-4 fw-bold"
+                style={{ color: "rgba(74, 69, 63, 1)", fontSize: "2.5rem" }}
+                initial={{ opacity: 0, y: -30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+            >
+                About takicars
+            </motion.h2>
 
             {/* Info Cards */}
             <div className="container">

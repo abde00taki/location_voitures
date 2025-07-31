@@ -3,13 +3,15 @@ import { BsPlusCircle, BsPencilSquare } from "react-icons/bs";
 import PrimarySearchAppBar from "../components/test";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import HelloAdmin from "../components/HelloAdmin";
 import CardCars from "../components/CardCars";
 import Reserve from "./Reserv";
 import Accepted from "./Accept";
 import Rejected from "./Rejected";
 import { Autocomplete, TextField, Alert } from "@mui/material";
 import Charts from "./Charts";
+import Drop from "./Drop";
+import PrimarySearchSidebar from "../components/SidebarAdmin";
+import { IoIosAddCircle } from "react-icons/io";
 
 
 export default function Admin() {
@@ -21,6 +23,7 @@ export default function Admin() {
     const [image, setImage] = useState(null);
 
     const [chenge, setChenge] = useState("home");
+    
 
     const handelChengePost = (e) => {
         e.preventDefault();
@@ -30,6 +33,10 @@ export default function Admin() {
         e.preventDefault();
         setChenge('accept');
     };
+    const handelChengeDroped = (e) => {
+        e.preventDefault();
+        setChenge('drop');
+    };
     const handelChengeRefuse = (e) => {
         e.preventDefault();
         setChenge('refuse');
@@ -37,7 +44,7 @@ export default function Admin() {
 
     const [pendingCount, setPendingCount] = useState(0);
     const fetchPendingCount = () => {
-        axios.get("http://localhost:8888/rent")
+        axios.get("http://localhost:8888/rent/pending")
             .then(res => {
                 const count = res.data.filter(r => r.status === "pending").length;
                 setPendingCount(count);
@@ -102,7 +109,7 @@ export default function Admin() {
         formData.append("price", price);
         formData.append("fuel", fuel);
         formData.append("image", image);
-        
+
 
         axios
             .post("http://localhost:8888/cars", formData)
@@ -124,11 +131,21 @@ export default function Admin() {
 
     return (
         <>
-            <PrimarySearchAppBar
+            <div className="d-none d-lg-flex">
+                <PrimarySearchAppBar
+                    pendingCount={pendingCount}
+                    changeAccept={handelChengeAcceptComond}
+                    changeRefuse={handelChengeRefuse}
+                    handleClearNotifications={handleClearNotifications}
+                    changeDrop={handelChengeDroped}
+                />
+            </div>
+            <PrimarySearchSidebar
                 pendingCount={pendingCount}
                 changeAccept={handelChengeAcceptComond}
                 changeRefuse={handelChengeRefuse}
                 handleClearNotifications={handleClearNotifications}
+                changeDrop={handelChengeDroped}
             />
             <br /><br />
 
@@ -149,11 +166,7 @@ export default function Admin() {
 
                 <div className="col-md-9 example  vh-100 "
                     style={{
-                        backgroundImage: "url(/admin.png)",
-                        backgroundAttachment: "fixed",
-                        backgroundPosition: "center",
-                        backgroundRepeat: "no-repeat",
-                        backgroundSize: "cover",
+                        
                         zIndex: 2,
                         position: "relative",
                         overflowY: "scroll",
@@ -161,9 +174,9 @@ export default function Admin() {
                     }}
                 >
                     <div className={chenge === "home" ? "" : "d-none"}>
-                       
+
                         <Charts />
-                        
+
                     </div>
 
 
@@ -281,9 +294,9 @@ export default function Admin() {
                                     )}
                                 />
                             </div>
-                            <div className="mt-4">
-                                <button onClick={handelChengePost} className="btn btn-primary mx-4">
-                                    <BsPlusCircle size={18} />
+                            <div className="mt-2">
+                                <button onClick={handelChengePost} className="btn  mb-2">
+                                    <IoIosAddCircle color="blue" size={60}/>
                                 </button>
                             </div>
                         </div>
@@ -296,7 +309,7 @@ export default function Admin() {
                                             <CardCars
                                                 rent="update"
                                                 marque={car.marque}
-                                                modele={car.model}
+                                                modele={car.modele}
                                                 price={car.price}
                                                 fuel={car.fuel}
                                                 image={car.image}
@@ -325,6 +338,9 @@ export default function Admin() {
                     </div>
                     <div className={chenge === 'comond' ? "" : "d-none"}>
                         <Reserve />
+                    </div>
+                    <div className={chenge === 'drop' ? "" : "d-none"}>
+                        <Drop />
                     </div>
                 </div>
             </div>

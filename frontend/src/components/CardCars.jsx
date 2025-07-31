@@ -42,7 +42,7 @@ export default function CardCars(props) {
     };
 
     return (
-        <div className="card custom-card mt-3" style={{ width: "100%", position: "relative", borderRadius: "10px", transition: "0.3s"}}>
+        <div className="card custom-card mt-3" style={{ width: "100%", position: "relative", borderRadius: "10px", transition: "0.3s" }}>
             {/* النجمة فوق الصورة */}
             <div style={{
                 position: "absolute",
@@ -104,7 +104,9 @@ export default function CardCars(props) {
                 </div>
                 {props.rent === 'user' ? (
                     <div className="d-flex justify-content-center">
-                        <NavLink to={'/resrvation/' + props.id} className="mt-4"><MdAssignmentAdd size={35} /></NavLink>
+                        <div >
+                            <NavLink to={'/resrvation/' + props.id} className={props.status === "accepted" ? "invisible" : ""}><MdAssignmentAdd size={35} /></NavLink>
+                        </div>
                     </div>
                 ) : (
                     <div className="d-flex justify-content-between mt-3">

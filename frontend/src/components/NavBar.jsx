@@ -67,9 +67,9 @@ const NavBar = ({ show }) => {
           style={{ transition: "all 0.3s ease-in-out" }}
         >
           <Container>
-            <IoCarSportOutline color="rgba(251, 138, 1, 1)" className="fs-1" />
+            <IoCarSportOutline  className="fs-1 mx-1" />
             <Navbar.Brand href="#" className="d-flex align-items-center">
-              <span style={{textShadow: "0 0 3px black"}} className={linkClassName}>TAKICARS</span>
+              <span style={{fontWeight: "bold"}} className={linkClassName}>TAKICARS</span>
             </Navbar.Brand>
 
             <Navbar.Toggle aria-controls="navbar-nav" />
@@ -79,19 +79,19 @@ const NavBar = ({ show }) => {
                   to={"/"}
                   className={`d-flex align-items-center gap-1 text-decoration-none mx-4 ${linkClassName}`}
                 >
-                  <House /> Home
+                    HOME
                 </NavLink>
                 <NavLink
                   to={"/cars"}
                   className={`d-flex align-items-center gap-1 text-decoration-none mx-4 ${linkClassName}`}
                 >
-                   cars
+                   CARS
                 </NavLink>
                 <NavLink
                   to={"/seved"}
                   className={`d-flex align-items-center gap-1 text-decoration-none mx-4 ${linkClassName}`}
                 >
-                   Saved
+                   SAVED
                 </NavLink>
                 
                 

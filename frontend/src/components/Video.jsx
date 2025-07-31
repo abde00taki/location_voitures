@@ -42,7 +42,6 @@ export default function Video() {
                         alignItems: "center",
                         justifyContent: "center",
                         paddingLeft: "40px",
-
                     }}
                 >
                     <div className="d-flex">
@@ -66,7 +65,6 @@ export default function Video() {
                                 animate={{ x: 0, opacity: 1 }}
                                 transition={{ duration: 1 }}
                                 style={{
-
                                     margin: 0,
                                 }}
                             >
@@ -112,7 +110,7 @@ export default function Video() {
                         transition={{ duration: 1 }}
                         style={{
                             margin: 0,
-                            boxShadow: "0 0 6px white",
+                            boxShadow: "0 0 5px BLACK",
                             top: "40px",
                             border: "1px solid rgba(251, 138, 1, 1)",
                             color: "rgba(255, 255, 255, 1)",

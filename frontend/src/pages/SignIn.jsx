@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import NavBar from "../components/NavBar";
 import PageWrapper from "../components/PageWrapper";
+import Sidebar from "../components/SideBar";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -39,6 +40,9 @@ export default function SignIn() {
       <PageWrapper >
         <div className="d-none d-lg-flex">
           <NavBar show={true} />
+        </div>
+        <div className="d-flex d-lg-none">
+          <Sidebar />
         </div>
 
         <div className="d-flex justify-content-center align-items-center vh-100" style={{ backgroundColor: "#f0f2f5" }}>

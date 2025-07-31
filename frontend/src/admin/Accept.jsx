@@ -50,7 +50,7 @@ export default function Accepted() {
         <>
             {/* <PrimarySearchAppBar /> */}
             <Container className="py-4">
-                <h2 className="mb-4">Reservations</h2>
+                <h2 className="mb-4">Reservations accepted</h2>
                 <Row>
                     {rents.map((rent) => (
                         <Col md={4} key={rent.id_rent} className="mb-4">

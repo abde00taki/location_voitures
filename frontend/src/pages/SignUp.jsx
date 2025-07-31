@@ -5,12 +5,15 @@ import NavBar from "../components/NavBar";
 import { Box, Button, Container, Grid, TextField, Typography } from "@mui/material";
 import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 import PageWrapper from "../components/PageWrapper";
+import Sidebar from "../components/SideBar";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
     const [name, setName] = useState("");
     const [lastname, setLastname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const [errors, setErrors] = useState({
         name: null,
@@ -72,6 +75,7 @@ export default function SignUp() {
             });
             alert("Utilisateur ajouté : " + res.data.name);
             setName(""); setLastname(""); setEmail(""); setPassword("");
+            navigate('/signin')
         } catch (error) {
             console.error("Erreur POST:", error);
         }
@@ -80,7 +84,12 @@ export default function SignUp() {
     return (
         <>
             <PageWrapper >
-                <NavBar show={true} />
+                <div className="d-none d-lg-flex">
+                    <NavBar show={true} />
+                </div>
+                <div className="d-flex d-lg-none">
+                    <Sidebar />
+                </div>
                 <Box sx={{
                     backgroundColor: "", minHeight: "100vh", py: 6,
                     display: "flex",

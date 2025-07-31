@@ -17,35 +17,17 @@ import { IoCarSportOutline } from "react-icons/io5";
 import { FaEye } from "react-icons/fa";
 import Profile from "../pages/Profile";
 import { GrValidate } from "react-icons/gr";
-import { BiSolidMessageRoundedX } from "react-icons/bi";
+import { BiSolidMessageRoundedX, BiSolidMessageSquareX } from "react-icons/bi";
 
 export default function PrimarySearchAppBar(props) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-//   const [pendingCount, setPendingCount] = useState(0);
+
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  // 🟢 جلب عدد الـ pending
-//   const fetchPendingCount = () => {
-//     axios.get("http://localhost:8888/rent")
-//       .then(res => {
-//         const count = res.data.filter(r => r.status === "pending").length;
-//         setPendingCount(count);
-//       })
-//       .catch(err => console.error(err));
-//   };
 
-//   useEffect(() => {
-//     fetchPendingCount();
-//     const interval = setInterval(fetchPendingCount, 10000); // كل 10 ثواني
-//     return () => clearInterval(interval);
-//   }, []);
-
-//   const handleClearNotifications = () => {
-//     setPendingCount(0);
-//   };
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -158,6 +140,9 @@ export default function PrimarySearchAppBar(props) {
 
               <IconButton size="large" onClick={props.changeAccept} aria-label="accept reservations" color="inherit">
                 <GrValidate />
+              </IconButton>
+              <IconButton size="large" onClick={props.changeDrop} aria-label="accept reservations" color="inherit">
+                <BiSolidMessageSquareX />
               </IconButton>
 
               <a href="http://localhost:5173/" target="_blank" rel="noopener noreferrer">

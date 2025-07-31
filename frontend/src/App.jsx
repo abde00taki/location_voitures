@@ -26,9 +26,7 @@ function App() {
 
   return (
     <>
-      <div className="d-flex d-lg-none">
-        <Sidebar />
-      </div>
+      
 
 
 

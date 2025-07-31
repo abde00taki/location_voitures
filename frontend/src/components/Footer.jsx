@@ -8,7 +8,7 @@ import {
 
 export default function Footer() {
     return (
-        <footer className="text-light pt-5" style={{ backgroundColor: "#1a1a1a" }}>
+        <footer className="text-light pt-5 " style={{ backgroundColor: "#1a1a1a" }}>
             <div className="container">
                 <div className="row w-100 gy-4">
                     {/* Menu */}

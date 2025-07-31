@@ -32,7 +32,7 @@ export default function UserComments() {
     return (
         <Box sx={{ px: 3, py: 5 }}>
             <Typography variant="h5" gutterBottom fontWeight={600} align="center">
-                What Our client Say
+                What Our clients Say ?
             </Typography>
 
             <Grid container spacing={4}>

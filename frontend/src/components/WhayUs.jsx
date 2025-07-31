@@ -26,14 +26,14 @@ const features = [
 
 export default function ServiceFeatures() {
     return (
-        <Box sx={{ my: 6, px: { xs: 2, md: 6 } }}>
+        <Box  sx={{ my: 6, px: { xs: 2, md: 6 } }}>
             <Typography variant="h4" align="center" gutterBottom fontWeight={700}>
-                Why Choose Us?
+                Why  Us?
             </Typography>
 
             <Grid container columns={{ xs: 12, sm: 12, md: 12 }} spacing={4}>
                 {features.map((feature, index) => (
-                    <Grid span={{ xs: 12, sm: 6, md: 3 }} key={index}>
+                    <Grid  span={{ xs: 12, sm: 6, md: 3 }} key={index}>
                         <Card
                             sx={{
                                 height: "100%",
@@ -47,6 +47,7 @@ export default function ServiceFeatures() {
                                     boxShadow: "0 6px 24px rgba(251, 138, 1, 0.3)",
                                 },
                             }}
+                            
                         >
                             <Box mb={2}>{feature.icon}</Box>
                             <CardContent>

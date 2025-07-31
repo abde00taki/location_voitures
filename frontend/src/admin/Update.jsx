@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import PrimarySearchAppBar from "../components/test";
 import { IoCarSportOutline } from "react-icons/io5";
 import { BsPencilSquare, BsPlusCircle, BsTrash } from "react-icons/bs";
@@ -13,6 +13,7 @@ export default function UpdateCar({ onUpdateSuccess }) {
     const [price, setPrice] = useState("");
     const [fuel, setFuel] = useState("");
     const [image, setImage] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios
@@ -50,6 +51,7 @@ export default function UpdateCar({ onUpdateSuccess }) {
             .then((res) => {
                 alert("Car updated successfully");
                 if (onUpdateSuccess) onUpdateSuccess();
+                navigate('/admin')
             })
             .catch((err) => {
                 console.error(err);
@@ -65,7 +67,7 @@ export default function UpdateCar({ onUpdateSuccess }) {
             <br />
             <br />
 
-            <div className="row vh-100">
+            <div className="row vh-100  w-100">
                 {/* Sidebar */}
                 <div
                     className="sidebar col-md-3 d-none d-lg-flex bg-dark p-0"
@@ -81,7 +83,7 @@ export default function UpdateCar({ onUpdateSuccess }) {
                                 style={{ width: "20%" }}
                                 className="btn btn-outline-light mx-4"
                             >
-                                <Link to={'/admin'}><IoCarSportOutline size={20} /> H o m e</Link>
+                                <Link className="text-decoration-none text-light" to={'/admin'}><IoCarSportOutline size={20} /> H o m e</Link>
                             </button>
 
                             
@@ -91,11 +93,9 @@ export default function UpdateCar({ onUpdateSuccess }) {
 
                 {/* Content */}
                 <div
-                    className="col-md-9 bg-dark"
+                    className="col-md-9 bg-light"
                     style={{
-                        backgroundImage: "url(/admin.png)",
-                        backgroundAttachment: "fixed",
-                        backgroundPosition: "center",
+                        
                         zIndex: 2,
                         position: "relative", // bring content above sidebar
                     }}

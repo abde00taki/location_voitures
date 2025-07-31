@@ -4,6 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { FaBell } from "react-icons/fa";
 import { FaRegAddressCard } from "react-icons/fa";
 import { RxUpdate } from "react-icons/rx";
+import Sidebar from "../components/SideBar";
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -79,110 +80,116 @@ export default function Profile() {
   }
 
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div className="card shadow p-4" style={{ width: "400px" }}>
-        <div className="d-flex justify-content-between align-items-center mb-3">
-        <NavLink to={'/comond/'+user.id_user}><FaRegAddressCard size={34}/></NavLink>
-
-          <div className="position-relative mt-1">
-            <FaBell
-              onClick={() => setShowNotifications(!showNotifications)}
-              style={{ cursor: "pointer", fontSize: "1.5rem" }}
-            />
-            {notifications.length > 0 && (
-              <span
-                className="badge bg-danger position-absolute top-0 start-100 translate-middle"
-                style={{ fontSize: "0.75rem" }}
-              >
-                {notifications.length}
-              </span>
-            )}
-          </div>
-        </div>
-
-        <div className="text-center mb-3">
-          <img
-            src={preview}
-            alt="Profile"
-            className="rounded-circle"
-            style={{ width: "120px", height: "120px", objectFit: "cover" }}
-          />
-        </div>
-
-        {showNotifications && (
-          <div className="alert alert-info">
-            <h6>Notifications</h6>
-            <ul className="list-unstyled">
-              {notifications.map((n) => (
-                <li key={n.id_notification}>• {n.message}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} encType="multipart/form-data">
-          <div className="mb-3">
-            <label className="form-label">Name</label>
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Lastname</label>
-            <input
-              type="text"
-              className="form-control"
-              value={lastname}
-              onChange={(e) => setLastname(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Current Password</label>
-            <input
-              type="password"
-              className="form-control"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              placeholder="Enter current password"
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">New Password</label>
-            <input
-              type="password"
-              className="form-control"
-              value={newPassword}
-              onChange={(e) => setNewPassword(e.target.value)}
-              placeholder="Enter new password"
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Profile Image</label>
-            <input
-              type="file"
-              className="form-control"
-              onChange={(e) => setImage(e.target.files[0])}
-            />
-          </div>
-
-          <button type="submit" className="btn  w-100 mb-2">
-           <RxUpdate size={33} color="rgba(251, 138, 1, 1)" />
-          </button>
-        </form>
-
-        <button onClick={handleSignOut} className="btn btn-danger w-100 d-none">
-          Sign Out
-        </button>
+    <>
+      <div className="d-flex d-lg-none">
+        <Sidebar />
       </div>
-    </div>
+      <div className="container d-flex justify-content-center align-items-center vh-100">
+        <div className="card shadow p-4" style={{ width: "400px" }}>
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <NavLink to={'/comond/' + user.id_user}><FaRegAddressCard size={34} /></NavLink>
+
+            <div className="position-relative mt-1">
+              <FaBell
+                onClick={() => setShowNotifications(!showNotifications)}
+                style={{ cursor: "pointer", fontSize: "1.5rem" }}
+              />
+              {notifications.length > 0 && (
+                <span
+                  className="badge bg-danger position-absolute top-0 start-100 translate-middle"
+                  style={{ fontSize: "0.75rem" }}
+                >
+                  {notifications.length}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="text-center mb-3">
+            <img
+              src={preview}
+              alt="Profile"
+              className="rounded-circle"
+              style={{ width: "120px", height: "120px", objectFit: "cover" }}
+            />
+          </div>
+
+          {showNotifications && (
+            <div className="alert alert-info">
+              <h6>Notifications</h6>
+              <ul className="list-unstyled">
+                {notifications.map((n) => (
+                  <li key={n.id_notification}>• {n.message}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
+            <div className="mb-3">
+              <label className="form-label">Name</label>
+              <input
+                type="text"
+                className="form-control"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Lastname</label>
+              <input
+                type="text"
+                className="form-control"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
+                required
+              />
+            </div>
+
+
+            <div className="mb-3">
+              <label className="form-label">Current Password</label>
+              <input
+                type="password"
+                className="form-control"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                placeholder="Enter current password"
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">New Password</label>
+              <input
+                type="password"
+                className="form-control"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Enter new password"
+              />
+            </div>
+
+            <div className="mb-3">
+              <label className="form-label">Profile Image</label>
+              <input
+                type="file"
+                className="form-control"
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </div>
+
+            <button type="submit" className="btn  w-100 mb-2">
+              <RxUpdate size={33} color="rgba(251, 138, 1, 1)" />
+            </button>
+          </form>
+
+          <button onClick={handleSignOut} className="btn btn-danger w-100 d-none">
+            Sign Out
+          </button>
+        </div>
+      </div>
+    </>
   );
 }

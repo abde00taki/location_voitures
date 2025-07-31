@@ -56,7 +56,7 @@ export default function Reserve() {
                 <Row>
                     {rents.map((rent) => (
                         <Col md={4} key={rent.id_rent} className="mb-4">
-                            <Card style={{ backgroundColor: "rgba(247, 247, 247, 1)", boxShadow: "0 0 5px black"}}>
+                            <Card style={{ backgroundColor: "rgba(247, 247, 247, 1)", boxShadow: "0 0 5px rgba(0, 0, 0, 0.477)"}}>
                                 <Card.Body>
                                     <h5 className="d-flex align-items-center gap-2">
                                         <FaUser /> User Info
