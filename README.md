@@ -1,4 +1,4 @@
-# RentCars Web Application - Mind Map
+# RentCars Web Application - TAKICARS
 
 <details>
 <summary>🚀 1. Project Overview</summary>
