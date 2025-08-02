@@ -12,6 +12,7 @@ import Charts from "./Charts";
 import Drop from "./Drop";
 import PrimarySearchSidebar from "../components/SidebarAdmin";
 import { IoIosAddCircle } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 
 export default function Admin() {
@@ -21,6 +22,7 @@ export default function Admin() {
     const [price, setPrice] = useState("");
     const [fuel, setFuel] = useState("");
     const [image, setImage] = useState(null);
+    const navigate = useNavigate()
 
     const [chenge, setChenge] = useState("home");
     
@@ -51,8 +53,15 @@ export default function Admin() {
             })
             .catch(err => console.error(err));
     };
+    const user = JSON.parse(localStorage.getItem("user"));
+    
 
     useEffect(() => {
+        if (!user || user.role !== "admin") {
+      navigate("/");
+      return;
+    }
+
         fetchPendingCount();
         const interval = setInterval(fetchPendingCount, 10000);
         return () => clearInterval(interval);

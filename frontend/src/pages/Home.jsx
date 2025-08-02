@@ -54,11 +54,11 @@ export default function Home() {
 
 
             <div className="d-flex justify-content-center">
-              <h3 className=" text-center w-25" style={{ color: "rgba(251, 138, 1, 1)" }}>Most rented</h3>
+              <h2 className=" text-center w-25 fw-bold" style={{ color: "rgba(251, 138, 1, 1)" }}>Most rented</h2>
             </div>
             <div className="row">
               {/* ✅ Sidebar Card col-md-3 */}
-              <div className="col-md-4">
+              <div className="col-md-4 mt-4">
                 <div className="p-4 bg-white  rounded-4 h-100 d-flex flex-column justify-content-between" style={{ boxShadow: "0 0 8px rgba(0, 0, 0, 0.477)" }}>
                   <div>
                     <h4 className="fw-bold mb-3 d-flex align-items-center gap-2">
@@ -98,7 +98,7 @@ export default function Home() {
               </div>
 
               {/* ✅ Swiper Slider col-md-9 */}
-              <div className="col-md-8 " style={{ borderRadius: "15px", boxShadow: "0 0 8px rgba(0, 0, 0, 0.477)" }}>
+              <div className="col-md-8 mt-4 " style={{ borderRadius: "15px", boxShadow: "0 0 8px rgba(0, 0, 0, 0.477)" }}>
                 {cars.length > 0 && (
                   <Swiper
                     effect="coverflow"
@@ -157,7 +157,7 @@ export default function Home() {
             <h3 className=" mt-4 text-center" style={{ color: "rgba(251, 138, 1, 1)" }}>the cheapest</h3>
             <div className="row ">
               {/* ✅ Swiper Slider col-md-9 */}
-              <div className="col-md-8 " style={{ borderRadius: "15px", boxShadow: "0 0 8px rgba(0, 0, 0, 0.477)" }}>
+              <div className="col-md-8 mt-4 " style={{ borderRadius: "15px", boxShadow: "0 0 8px rgba(0, 0, 0, 0.477)" }}>
                 {cars.length > 0 && (
                   <Swiper
                     effect="coverflow"
@@ -211,7 +211,7 @@ export default function Home() {
                 )}
               </div>
               {/* ✅ Sidebar Card col-md-4 */}
-              <div className="col-md-4 ">
+              <div className="col-md-4 mt-4 ">
                 <div className="p-4 bg-white  rounded-4 h-100 d-flex flex-column justify-content-between" style={{ boxShadow: "0 0 8px rgba(0, 0, 0, 0.477)" }}>
                   <div>
                     <h4 className="fw-bold mb-3 d-flex align-items-center gap-2">

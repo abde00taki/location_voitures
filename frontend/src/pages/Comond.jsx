@@ -14,11 +14,23 @@ import NavBar from "../components/NavBar";
 import PageWrapper from "../components/PageWrapper";
 import Footer from "../components/Footer";
 import Sidebar from "../components/SideBar";
+import { saveAs } from "file-saver";
 
 export default function Comond() {
   const { id } = useParams();
   const [rents, setRents] = useState([]);
   const [alert, setAlert] = useState(null);
+
+
+  // hada dyal Qr code 
+  function handleDownload(qrCodeBase64, id_rent) {
+    fetch(qrCodeBase64)
+      .then(res => res.blob())
+      .then(blob => {
+        saveAs(blob, `QR_Rent_${id_rent}.png`);
+      });
+  }
+
 
   useEffect(() => {
     fetchRents();
@@ -69,9 +81,8 @@ export default function Comond() {
           {/* ✅ Custom Alert */}
           {alert && (
             <div
-              className={`custom-alert ${
-                alert.type === "success" ? "success" : "error"
-              }`}
+              className={`custom-alert ${alert.type === "success" ? "success" : "error"
+                }`}
             >
               {alert.type === "success" ? (
                 <FaCheckCircle className="icon" />
@@ -112,15 +123,14 @@ export default function Comond() {
                 <p className="mb-2">
                   <strong>Status:</strong>{" "}
                   <span
-                    className={`badge bg-${
-                      rent.status === "accepted"
+                    className={`badge bg-${rent.status === "accepted"
                         ? "success"
                         : rent.status === "rejected"
-                        ? "danger"
-                        : rent.status === "drop"
-                        ? "secondary"
-                        : "warning"
-                    }`}
+                          ? "danger"
+                          : rent.status === "drop"
+                            ? "secondary"
+                            : "warning"
+                      }`}
                     style={{ fontSize: "0.9rem" }}
                   >
                     {rent.status}
@@ -128,33 +138,23 @@ export default function Comond() {
                 </p>
 
                 {/* ✅ QR Code Display + Download */}
-                {rent.status === "accepted" && rent.qr_code && (
-                  <div className="mt-3 text-center">
-                    <h6 className="fw-bold text-success mb-2 d-flex justify-content-center align-items-center gap-2">
-                      <FaQrcode /> Your QR Code
-                    </h6>
+                {rent.qr_code && (
+                  <div className="mt-2 d-flex gap-2 align-items-center">
                     <img
                       src={`http://localhost:8888${rent.qr_code}`}
                       alt="QR Code"
-                      style={{
-                        width: "150px",
-                        height: "150px",
-                        border: "4px solid rgba(251,138,1,1)",
-                        borderRadius: "12px",
-                        padding: "5px",
-                        background: "white",
-                      }}
+                      width="100"
+                      className="border rounded"
                     />
-                    <br />
-                    <a
-                      href={rent.qr_code}
-                      download={`reservation_${rent.id_rent}.png`}
-                      className="btn btn-outline-success btn-sm mt-2 d-flex align-items-center justify-content-center gap-2"
+                    <button
+                      className="btn btn-sm btn-outline-success"
+                      onClick={() => handleDownload(rent.qr_code, rent.id_rent)}
                     >
-                      <FaDownload /> Download QR
-                    </a>
+                      Download QR
+                    </button>
                   </div>
                 )}
+
 
                 {/* Drop Button */}
                 {rent.status === "pending" && (

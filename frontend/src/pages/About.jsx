@@ -54,7 +54,7 @@ export default function AboutUs() {
             </Swiper>
             <motion.h2
                 className="text-center mb-4 fw-bold"
-                style={{ color: "rgba(74, 69, 63, 1)", fontSize: "2.5rem" }}
+                style={{ color: "rgba(251, 138, 1, 1)", fontSize: "2.5rem" }}
                 initial={{ opacity: 0, y: -30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}

@@ -27,7 +27,7 @@ const features = [
 export default function ServiceFeatures() {
     return (
         <Box  sx={{ my: 6, px: { xs: 2, md: 6 } }}>
-            <Typography variant="h4" align="center" gutterBottom fontWeight={700}>
+            <Typography color="rgba(251, 138, 1, 1)" variant="h4" align="center" gutterBottom fontWeight={700}>
                 Why  Us?
             </Typography>
 

@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
-const qr = require("qrcode");
 const path = require("path");
 const fs = require("fs");
+const QRCode = require('qrcode');
 
 
 // 🔷 GET all rents
@@ -133,19 +133,20 @@ router.get('/drop', (req, res) => {
 });
 
 
+
+
 // 🔷 POST new rent
 router.post('/', (req, res) => {
-  const { date_depart, date_fin, id_car, id_user } = req.body;
+  const { date_depart, date_fin, id_car, id_user, marque, matricule, name, email } = req.body;
 
-  if (!date_depart || !date_fin || !id_car || !id_user) {
+  if (!date_depart || !date_fin || !id_car || !id_user || !marque || !matricule || !name || !email) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
+  // ✅ 1. Insert rent first
   db.query(
-    `
-    INSERT INTO rent (date_depart, date_fin, id_car, id_user, status)
-    VALUES (?, ?, ?, ?, 'pending')
-    `,
+    `INSERT INTO rent (date_depart, date_fin, id_car, id_user, status)
+     VALUES (?, ?, ?, ?, 'pending')`,
     [date_depart, date_fin, id_car, id_user],
     (err, result) => {
       if (err) {
@@ -154,39 +155,39 @@ router.post('/', (req, res) => {
       }
 
       const id_rent = result.insertId;
-      const qrText = `Reservation ID: ${id_rent} | Car: ${id_car} | User: ${id_user}`;
-      const qrFilename = `qr_${id_rent}.png`;
-      const qrPath = path.join(__dirname, "../uploads", qrFilename);
 
-      // ⬇ إنشاء QR code وتخزينه كصورة
-      qr.toFile(qrPath, qrText, {}, (qrErr) => {
-        if (qrErr) {
-          console.error(qrErr);
-          return res.status(500).json({ error: "QR code generation failed" });
+      // ✅ 2. Build the info for QR
+      const rentInfo = {
+        id_rent,
+        name,
+        email,
+        marque,
+        matricule,
+        date_depart,
+        date_fin
+      };
+
+      // ✅ 3. Generate QR Code (Base64)
+      QRCode.toDataURL(JSON.stringify(rentInfo), (err, url) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ error: 'QR generation failed' });
         }
 
-        // ⬇ تحديث الداتابيز بالمسار ديال QR
-        const qrDbPath = `/uploads/${qrFilename}`;
-        db.query(
-          "UPDATE rent SET qr_code = ? WHERE id_rent = ?",
-          [qrDbPath, id_rent],
-          (updateErr) => {
-            if (updateErr) {
-              console.error(updateErr);
-              return res.status(500).json({ error: "Failed to save QR path" });
-            }
-
-            res.json({
-              id_rent,
-              date_depart,
-              date_fin,
-              id_car,
-              id_user,
-              status: 'pending',
-              qr_code: qrDbPath
-            });
+        // ✅ 4. Update rent with QR Code
+        db.query(`UPDATE rent SET qr_code=? WHERE id_rent=?`, [url, id_rent], (err2) => {
+          if (err2) {
+            console.error(err2);
+            return res.status(500).json({ error: 'QR save failed' });
           }
-        );
+
+          // ✅ Return rent info with QR
+          res.json({
+            ...rentInfo,
+            status: 'pending',
+            qr_code: url
+          });
+        });
       });
     }
   );

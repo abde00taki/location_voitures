@@ -17,6 +17,7 @@
     "@mui/x-charts": "^8.9.0",
     "axios": "^1.11.0",
     "bootstrap": "^5.3.7",
+    "file-saver": "^2.0.5",
     "framer-motion": "^12.23.6",
     "react": "^19.1.0",
     "react-bootstrap": "^2.10.10",
